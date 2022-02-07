@@ -2,6 +2,7 @@ package br.com.robson.controllers;
 
 import java.io.IOException;
 
+import br.com.robson.dao.UsuarioDao;
 import br.com.robson.models.Usuario;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/LoginController") /* Mapeamento de URL que vem da tela */
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	private UsuarioDao usuarioDao = new UsuarioDao();
 
 	public LoginController() {
 		super();
@@ -30,21 +33,27 @@ public class LoginController extends HttpServlet {
 		String senha = request.getParameter("senha");
 		String url = request.getParameter("url");
 
-		if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty()) {
+		try {
+			if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty()) {
 
-			Usuario usuario = new Usuario(login, senha);
+				Usuario usuario = new Usuario(login, senha);
 
-			if (usuario.getLogin().equalsIgnoreCase("admin")
-					&& usuario.getSenha().equalsIgnoreCase("admin")) { /* Simulando login */
+				if (usuarioDao.validarAutenticacao(usuario)) { /* Simulando login */
 
-				request.getSession().setAttribute("usuario", usuario);
+					request.getSession().setAttribute("usuario", usuario);
 
-				if (url == null || url.equals("null")) {
-					url = "/home";
+					if (url == null || url.equals("null")) {
+						url = "/home";
+					}
+
+					RequestDispatcher redirecionar = request.getRequestDispatcher(url);
+					redirecionar.forward(request, response);
+
+				} else {
+					RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
+					request.setAttribute("msg", "Informe o login e senha corretamente!");
+					redirecionar.forward(request, response);
 				}
-
-				RequestDispatcher redirecionar = request.getRequestDispatcher(url);
-				redirecionar.forward(request, response);
 
 			} else {
 				RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
@@ -52,9 +61,10 @@ public class LoginController extends HttpServlet {
 				redirecionar.forward(request, response);
 			}
 
-		} else {
-			RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
-			request.setAttribute("msg", "Informe o login e senha corretamente!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
+			request.setAttribute("msg", e.getMessage());
 			redirecionar.forward(request, response);
 		}
 	}
