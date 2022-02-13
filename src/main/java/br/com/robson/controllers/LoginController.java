@@ -24,7 +24,16 @@ public class LoginController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+
+		String acao = request.getParameter("acao");
+
+		if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("logout")) {
+			request.getSession().invalidate();
+
+			redirectToIndex(request, response, null);
+		} else {
+			doPost(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -50,15 +59,11 @@ public class LoginController extends HttpServlet {
 					redirecionar.forward(request, response);
 
 				} else {
-					RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
-					request.setAttribute("msg", "Informe o login e senha corretamente!");
-					redirecionar.forward(request, response);
+					redirectToIndex(request, response, "Informe o login e senha corretamente!");
 				}
 
 			} else {
-				RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
-				request.setAttribute("msg", "Informe o login e senha corretamente!");
-				redirecionar.forward(request, response);
+				redirectToIndex(request, response, "Informe o login e senha corretamente!");
 			}
 
 		} catch (Exception e) {
@@ -67,5 +72,12 @@ public class LoginController extends HttpServlet {
 			request.setAttribute("msg", e.getMessage());
 			redirecionar.forward(request, response);
 		}
+	}
+	
+	protected void redirectToIndex(HttpServletRequest request, HttpServletResponse response, String msg)
+			throws ServletException, IOException {
+		
+		if (msg != null && !msg.isBlank()) request.setAttribute("msg", msg);
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 }

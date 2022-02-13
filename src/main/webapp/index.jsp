@@ -6,60 +6,10 @@
 
 <jsp:include page="fragments/head.jsp"></jsp:include>
 
-<body themebg-pattern="theme1">
+<body>
 	<!-- Pre-loader start -->
-	<div class="theme-loader">
-		<div class="loader-track">
-			<div class="preloader-wrapper">
-				<div class="spinner-layer spinner-blue">
-					<div class="circle-clipper left">
-						<div class="circle"></div>
-					</div>
-					<div class="gap-patch">
-						<div class="circle"></div>
-					</div>
-					<div class="circle-clipper right">
-						<div class="circle"></div>
-					</div>
-				</div>
-				<div class="spinner-layer spinner-red">
-					<div class="circle-clipper left">
-						<div class="circle"></div>
-					</div>
-					<div class="gap-patch">
-						<div class="circle"></div>
-					</div>
-					<div class="circle-clipper right">
-						<div class="circle"></div>
-					</div>
-				</div>
-
-				<div class="spinner-layer spinner-yellow">
-					<div class="circle-clipper left">
-						<div class="circle"></div>
-					</div>
-					<div class="gap-patch">
-						<div class="circle"></div>
-					</div>
-					<div class="circle-clipper right">
-						<div class="circle"></div>
-					</div>
-				</div>
-
-				<div class="spinner-layer spinner-green">
-					<div class="circle-clipper left">
-						<div class="circle"></div>
-					</div>
-					<div class="gap-patch">
-						<div class="circle"></div>
-					</div>
-					<div class="circle-clipper right">
-						<div class="circle"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
+	<jsp:include page="fragments/theme-loader.jsp"></jsp:include>
 	<!-- Pre-loader end -->
 
 	<section class="login-block">
@@ -69,9 +19,9 @@
 				<div class="col-sm-12">
 					<!-- Authentication card start -->
 
-					<form class="md-float-material form-material"
+					<form class="md-float-material form-material needs-validation"
 						action="<%=request.getContextPath()%>/LoginController"
-						method="post">
+						method="post" novalidate>
 						<div class="text-center">
 							<h1>Curso Jsp</h1>
 						</div>
@@ -82,16 +32,16 @@
 										<h3 class="text-center">Login</h3>
 									</div>
 								</div>
-								<input type="hidden" value="<%=request.getParameter("url")%>"
-									name="url">
+								<input type="hidden" value="<%=request.getParameter("url")%>" name="url">
 								<div class="form-group form-primary">
 									<input type="text" name="login" class="form-control" required>
-									<span class="form-bar"></span> <label class="float-label">Login</label>
+									<span class="form-bar"></span>
+									<label class="float-label">Login</label>
 								</div>
 								<div class="form-group form-primary">
-									<input type="password" name="senha" class="form-control"
-										required> <span class="form-bar"></span> <label
-										class="float-label">Senha</label>
+									<input type="password" name="senha" class="form-control" required>
+									<span class="form-bar"></span>
+									<label class="float-label">Senha</label>
 								</div>
 								<div class="row m-t-25 text-left">
 									<div class="col-12">
