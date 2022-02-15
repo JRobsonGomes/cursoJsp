@@ -3,7 +3,7 @@
 
 <%@ page import="br.com.robson.models.Usuario"%>
 <%
-Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLogado");
 %>
 
 <nav class="pcoded-navbar">
@@ -18,7 +18,7 @@ Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 					src="<%=request.getContextPath()%>/assets/images/avatar-4.jpg"
 					alt="User-Profile-Image">
 				<div class="user-details">
-					<span id="more-details"><%=usuario.getLogin()%><i class="fa fa-caret-down"></i></span>
+					<span id="more-details"><%=usuarioLogado.getLogin()%><i class="fa fa-caret-down"></i></span>
 				</div>
 			</div>
 

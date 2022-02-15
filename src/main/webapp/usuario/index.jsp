@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 
 <jsp:include page="../fragments/head.jsp"></jsp:include>
 
@@ -46,39 +44,44 @@
 													</div>
 													<div class="card-block">
 														<form class="form-material needs-validation" method="post"
+															action="<%=request.getContextPath()%>/UsuarioController"
 															novalidate>
-															<div class="form-group form-default">
-																<input type="text" name="id" class="form-control"
-																	required disabled> <span class="form-bar"></span>
+															<div class="form-group form-default form-static-label">
+																<input type="text" name="id" id="id"
+																	class="form-control" value="${usuario.id}" required
+																	disabled> <span class="form-bar"></span>
 																<label class="float-label">Id</label>
 															</div>
 															<div class="form-group form-default">
-																<input type="text" name="nome" class="form-control"
-																	required> <span class="form-bar"></span> <label
+																<input type="text" name="nome" id="nome"
+																	class="form-control" value="${usuario.nome}" required>
+																<span class="form-bar"></span> <label
 																	class="float-label">Nome</label>
 															</div>
 															<div class="form-group form-default">
-																<input type="email" name="email" class="form-control"
-																	required> <span class="form-bar"></span> <label
+																<input type="email" name="email" id="email"
+																	class="form-control" value="${usuario.email}" required>
+																<span class="form-bar"></span> <label
 																	class="float-label">Email (exa@gmail.com)</label>
 															</div>
 															<div class="form-group form-default">
-																<input type="text" name="login" class="form-control"
-																	required> <span class="form-bar"></span> <label
+																<input type="text" name="login" id="login"
+																	class="form-control" value="${usuario.login}" required>
+																<span class="form-bar"></span> <label
 																	class="float-label">Login</label>
 															</div>
 															<div class="form-group form-default">
-																<input type="password" name="senha" class="form-control"
-																	required maxlength="8"> <span class="form-bar"></span>
-																<label class="float-label">Senha</label>
+																<input type="password" name="senha" id="senha"
+																	class="form-control" value="${usuario.senha}" required
+																	maxlength="8"> <span class="form-bar"></span> <label
+																	class="float-label">Senha</label>
 															</div>
 															<div class="form-group form-default m-t-50">
-																<button class="btn waves-effect waves-light btn-primary">Enviar</button>
-																<button class="btn waves-effect waves-light btn-success">Success
-																	Button</button>
-																<button class="btn waves-effect waves-light btn-info ">Info
-																	Button</button>
+																<button class="btn waves-effect waves-light btn-primary">Novo</button>
+																<button class="btn waves-effect waves-light btn-success">Salvar</button>
+																<button class="btn waves-effect waves-light btn-info">Editar</button>
 															</div>
+															<span class="text-success">${msg}</span>
 														</form>
 													</div>
 												</div>

@@ -49,7 +49,7 @@ public class LoginController extends HttpServlet {
 
 				if (usuarioDao.validarAutenticacao(usuario)) { /* Simulando login */
 
-					request.getSession().setAttribute("usuario", usuario);
+					request.getSession().setAttribute("usuarioLogado", usuario);
 
 					if (url == null || url.equals("null")) {
 						url = "/home";

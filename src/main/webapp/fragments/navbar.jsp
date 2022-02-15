@@ -3,7 +3,7 @@
 
 <%@ page import="br.com.robson.models.Usuario"%>
 <%
-Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLogado");
 %>
 
 <nav class="navbar header-navbar pcoded-header">
@@ -68,7 +68,7 @@ Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 									src="<%=request.getContextPath()%>/assets/images/avatar-2.jpg"
 									alt="Generic placeholder image">
 								<div class="media-body">
-									<h5 class="notification-user"><%=usuario.getLogin()%></h5>
+									<h5 class="notification-user"><%=usuarioLogado.getLogin()%></h5>
 									<p class="notification-msg">Lorem ipsum dolor sit amet,
 										consectetuer elit.</p>
 									<span class="notification-time">30 minutes ago</span>
@@ -105,7 +105,7 @@ Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 				<li class="user-profile header-notification"><a href="#!"
 					class="waves-effect waves-light"> <img
 						src="<%=request.getContextPath()%>/assets/images/avatar-4.jpg"
-						class="img-radius" alt="User-Profile-Image"> <span><%=usuario.getLogin()%></span>
+						class="img-radius" alt="User-Profile-Image"> <span><%=usuarioLogado.getLogin()%></span>
 						<i class="ti-angle-down"></i>
 				</a>
 					<ul class="show-notification profile-notification">
