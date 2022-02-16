@@ -79,7 +79,6 @@
 															<div class="form-group form-default m-t-50">
 																<button class="btn waves-effect waves-light btn-primary">Novo</button>
 																<button class="btn waves-effect waves-light btn-success">Salvar</button>
-																<button class="btn waves-effect waves-light btn-info">Editar</button>
 															</div>
 															<span class="text-success">${msg}</span>
 														</form>

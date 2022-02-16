@@ -19,27 +19,80 @@ public class UsuarioDao {
 	}
 
 	public Usuario buscarUsuario(String login) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 
-		return null;
+		try {
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(login) = UPPER(?)");
+			st.setString(1, login);
+			rs = st.executeQuery();
+
+			if (rs.next()) {
+				Usuario obj = new Usuario();
+				obj.setId(rs.getLong("id"));
+				obj.setNome(rs.getString("nome"));
+				obj.setEmail(rs.getString("email"));
+				obj.setLogin(rs.getString("login"));
+				obj.setSenha(rs.getString("senha"));
+				
+				return obj;
+			}
+
+			return null;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
+	
+	public Usuario buscarUsuario(Long id) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE id = ?");
+			st.setLong(1, id);
+			rs = st.executeQuery();
+			
+			if (rs.next()) {
+				Usuario obj = new Usuario();
+				obj.setId(rs.getLong("id"));
+				obj.setNome(rs.getString("nome"));
+				obj.setEmail(rs.getString("email"));
+				obj.setLogin(rs.getString("login"));
+				obj.setSenha(rs.getString("senha"));
+				
+				return obj;
+			}
+			
+			return null;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
 	}
 
 	public void salvar(Usuario usuario) throws Exception {
-		PreparedStatement preparedSql = null;
+		PreparedStatement st = null;
 
 		try {
-			String sql = "INSERT INTO tb_usuario(login, senha, nome, email)  VALUES (?, ?, ?, ?)";
-			preparedSql = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			String sql = "INSERT INTO tb_usuario(login, senha, nome, email) VALUES (?, ?, ?, ?)";
+			st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-			preparedSql.setString(1, usuario.getLogin());
-			preparedSql.setString(2, usuario.getSenha());
-			preparedSql.setString(3, usuario.getNome());
-			preparedSql.setString(4, usuario.getEmail());
+			st.setString(1, usuario.getLogin());
+			st.setString(2, usuario.getSenha());
+			st.setString(3, usuario.getNome());
+			st.setString(4, usuario.getEmail());
 
-			int rowsAffected = preparedSql.executeUpdate();
+			int rowsAffected = st.executeUpdate();
 			connection.commit();
 
 			if (rowsAffected > 0) {
-				ResultSet rs = preparedSql.getGeneratedKeys();
+				ResultSet rs = st.getGeneratedKeys();
 				if (rs.next()) {
 					Long id = rs.getLong(1);
 					usuario.setId(id);
@@ -51,25 +104,25 @@ public class UsuarioDao {
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {
-			SingleConnectionBanco.closeStatement(preparedSql);
+			SingleConnectionBanco.closeStatement(st);
 		}
 	}
 
 	public boolean validarAutenticacao(Usuario usuario) throws Exception {
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
 		try {
-			String sql = "select * from tb_usuario where upper(login) = upper(?) and upper(senha) = upper(?) ";
+			String sql = "SELECT * FROM tb_usuario WHERE UPPER(login) = UPPER(?) and UPPER(senha) = UPPER(?) ";
 
-			statement = connection.prepareStatement(sql);
+			st = connection.prepareStatement(sql);
 
-			statement.setString(1, usuario.getLogin());
-			statement.setString(2, usuario.getSenha());
+			st.setString(1, usuario.getLogin());
+			st.setString(2, usuario.getSenha());
 
-			resultSet = statement.executeQuery();
+			rs = st.executeQuery();
 
-			if (resultSet.next()) {
+			if (rs.next()) {
 				return true;/* autenticado */
 			}
 			return false; /* nao autenticado */
@@ -77,8 +130,8 @@ public class UsuarioDao {
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {
-			SingleConnectionBanco.closeStatement(statement);
-			SingleConnectionBanco.closeResultSet(resultSet);
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
 		}
 	}
 }
