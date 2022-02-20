@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -36,14 +38,15 @@
 									<!-- Page-body start -->
 									<div class="page-body">
 										<div class="row justify-content-center">
-											<div class="col-sm-12 col-md-8">
+											<div class="col-sm-12 col-md-4">
 												<div class="card">
 													<div class="card-header">
 														<h5>Cadastro de usuário</h5>
 														<!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
 													</div>
 													<div class="card-block">
-														<form id="formUser" class="form-material needs-validation" method="post"
+														<form id="formUser" class="form-material needs-validation"
+															method="post"
 															action="<%=request.getContextPath()%>/UsuarioController"
 															novalidate>
 															<div class="form-group form-default form-static-label">
@@ -77,11 +80,56 @@
 																	class="float-label">Senha</label>
 															</div>
 															<div class="form-group form-default m-t-50">
-																<button type="button" class="btn waves-effect waves-light btn-primary" id="btnNovo">Novo</button>
+																<button type="button"
+																	class="btn waves-effect waves-light btn-primary"
+																	id="btnNovo">Novo</button>
 																<button class="btn waves-effect waves-light btn-success">Salvar</button>
 															</div>
 															<span class="text-success" id="msg">${msg}</span>
 														</form>
+													</div>
+												</div>
+											</div>
+
+											<!-- Listagem -->
+											<div class="col-sm-12 col-md-8">
+												<div class="card">
+													<div class="card-header">
+														<h5>Listagem usuários</h5>
+														<div class="card-header-right">
+															<ul class="list-unstyled card-option">
+																<li><i class="fa fa fa-wrench open-card-option"></i></li>
+																<li><i class="fa fa-window-maximize full-card"></i></li>
+																<li><i class="fa fa-minus minimize-card"></i></li>
+																<li><i class="fa fa-refresh reload-card"></i></li>
+																<li><i class="fa fa-trash close-card"></i></li>
+															</ul>
+														</div>
+													</div>
+													<div class="card-block table-border-style">
+														<div class="table-responsive">
+															<table class="table table-sm table-hover table-striped">
+																<thead>
+																	<tr>
+																		<th>#</th>
+																		<th>Nome</th>
+																		<th>Email</th>
+																		<th>Login</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<c:forEach items="${usuariosList}" var="usu">
+																		<tr>
+																			<th scope="row"><c:out value="${usu.id}"></c:out>
+																			</th>
+																			<td><c:out value="${usu.nome}"></c:out></td>
+																			<td><c:out value="${usu.email}"></c:out></td>
+																			<td><c:out value="${usu.login}"></c:out></td>
+																		</tr>
+																	</c:forEach>
+																</tbody>
+															</table>
+														</div>
 													</div>
 												</div>
 											</div>

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.robson.connection.DbException;
 import br.com.robson.connection.SingleConnectionBanco;
@@ -150,6 +152,34 @@ public class UsuarioDao {
 			rs.next();
 			return rs.getBoolean("existe");
 			
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
+
+	public List<Usuario> buscarTodos() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = connection.prepareStatement("SELECT * FROM tb_usuario ORDER BY Nome LIMIT 8");
+			rs = st.executeQuery();
+			
+			List<Usuario> list = new ArrayList<>();
+			while (rs.next()) {
+				Usuario obj = new Usuario();
+				obj.setId(rs.getLong("id"));
+				obj.setNome(rs.getString("nome"));
+				obj.setEmail(rs.getString("email"));
+				obj.setLogin(rs.getString("login"));
+				
+				list.add(obj);
+			}
+			
+			return list;
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {

@@ -1,6 +1,7 @@
 package br.com.robson.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import br.com.robson.dao.UsuarioDao;
 import br.com.robson.models.Usuario;
@@ -22,6 +23,21 @@ public class UsuarioController extends HttpServlet {
 		super();
 	}
 
+	private void listarUsuarios(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+
+			List<Usuario> usuarios = dao.buscarTodos();
+			request.setAttribute("usuariosList", usuarios);
+			request.getRequestDispatcher("usuario/").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
+			request.setAttribute("msg", "Erro ao listar usuarios: " + e.getMessage());
+			redirecionar.forward(request, response);
+		}
+	}
+
 	protected void salvarUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
@@ -30,7 +46,7 @@ public class UsuarioController extends HttpServlet {
 
 			setUsuario(request);
 			boolean login = dao.validarLogin(usuario);
-			
+
 			if (login && usuario.getId() == null) {
 				msg = "Já existe usuário com o mesmo login, informe outro login!";
 
@@ -54,8 +70,8 @@ public class UsuarioController extends HttpServlet {
 
 			request.setAttribute("msg", msg);
 			request.setAttribute("usuario", usuario);
-			request.getRequestDispatcher("usuario/").forward(request, response);
-			
+			listarUsuarios(request, response);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
@@ -66,7 +82,16 @@ public class UsuarioController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+		try {
+
+			listarUsuarios(request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
+			request.setAttribute("msg", e.getMessage());
+			redirecionar.forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
