@@ -78,15 +78,17 @@ public class UsuarioDao {
 
 	public void salvar(Usuario usuario) throws Exception {
 		PreparedStatement st = null;
+		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email) VALUES (?, ?, ?, ?)"
+				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=? WHERE id = ?";
 
 		try {
-			String sql = "INSERT INTO tb_usuario(login, senha, nome, email) VALUES (?, ?, ?, ?)";
 			st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, usuario.getLogin());
 			st.setString(2, usuario.getSenha());
 			st.setString(3, usuario.getNome());
 			st.setString(4, usuario.getEmail());
+			if (usuario.getId() != null) st.setLong(5, usuario.getId());
 
 			int rowsAffected = st.executeUpdate();
 			connection.commit();
@@ -116,7 +118,6 @@ public class UsuarioDao {
 			String sql = "SELECT * FROM tb_usuario WHERE UPPER(login) = UPPER(?) and UPPER(senha) = UPPER(?) ";
 
 			st = connection.prepareStatement(sql);
-
 			st.setString(1, usuario.getLogin());
 			st.setString(2, usuario.getSenha());
 
@@ -127,6 +128,28 @@ public class UsuarioDao {
 			}
 			return false; /* nao autenticado */
 
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
+	
+	public boolean validarLogin(Usuario usuario) throws Exception {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "SELECT COUNT(1) > 0 AS existe FROM tb_usuario WHERE UPPER(login) = UPPER(?) ";
+			
+			st = connection.prepareStatement(sql);
+			st.setString(1, usuario.getLogin());
+			rs = st.executeQuery();
+			
+			rs.next();
+			return rs.getBoolean("existe");
+			
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {

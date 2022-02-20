@@ -25,12 +25,34 @@ public class UsuarioController extends HttpServlet {
 	protected void salvarUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			var msg = "";
 			usuario = new Usuario();
 
 			setUsuario(request);
-			dao.salvar(usuario);
+			boolean login = dao.validarLogin(usuario);
 			
-			request.setAttribute("msg", "Operação realizada com sucesso!");
+			if (login && usuario.getId() == null) {
+				msg = "Já existe usuário com o mesmo login, informe outro login!";
+
+			} else {
+				Usuario usuarioExistente = dao.buscarUsuario(usuario.getLogin());
+
+				if (usuario.getId() != null && usuarioExistente != null
+						&& (usuario.getId() == usuarioExistente.getId())) {
+					dao.salvar(usuario);
+					msg = "Atualizado com sucesso!";
+
+				} else if (login) {
+					msg = "Já existe usuário com o mesmo login, informe outro login!";
+
+				} else {
+					dao.salvar(usuario);
+					msg = "Salvo com sucesso!";
+
+				}
+			}
+
+			request.setAttribute("msg", msg);
 			request.setAttribute("usuario", usuario);
 			request.getRequestDispatcher("usuario/").forward(request, response);
 			
@@ -55,11 +77,13 @@ public class UsuarioController extends HttpServlet {
 	private void setUsuario(HttpServletRequest request) throws Exception {
 		try {
 
+			String id = request.getParameter("id");
 			String nome = request.getParameter("nome");
 			String email = request.getParameter("email");
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
 
+			usuario.setId(id != null && !id.isBlank() ? Long.parseLong(id) : null);
 			usuario.setNome(nome);
 			usuario.setEmail(email);
 			usuario.setLogin(login);

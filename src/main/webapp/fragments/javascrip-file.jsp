@@ -72,5 +72,33 @@
 			});
 		}, false);
 	})();
+	
+	
+	//Outra opcao para limpar inputs com javascript puro
+	/* function limparForm() {
+		var elementos = document.getElementById("formUser").elements; Retorna os elementos html dentro do form
+
+		for (p = 0; p < elementos.length; p++) {
+			elementos[p].value = '';
+		}
+	} */
+
+	//Outra opcao para limpar inputs com jquery	
+	/* $('#btnNovo').click(function() {
+		$('#formUser *').filter(':input').each(function() {
+			this.value = '';
+		})
+	}); */
+	
+	
+	$('#btnNovo').click(function() {
+		$('#formUser :input, #formUser #msg').each(function(key, value) {
+			this.value = ''; //Limpa os inputs
+			
+			if (this.id == 'msg') { //Limpa o span com id = msg
+				this.innerHTML = '';
+			}
+		})
+	});
 </script>
 

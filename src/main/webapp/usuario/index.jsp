@@ -43,13 +43,13 @@
 														<!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
 													</div>
 													<div class="card-block">
-														<form class="form-material needs-validation" method="post"
+														<form id="formUser" class="form-material needs-validation" method="post"
 															action="<%=request.getContextPath()%>/UsuarioController"
 															novalidate>
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="id" id="id"
 																	class="form-control" value="${usuario.id}" required
-																	disabled> <span class="form-bar"></span>
+																	readonly="readonly"> <span class="form-bar"></span>
 																<label class="float-label">Id</label>
 															</div>
 															<div class="form-group form-default">
@@ -77,10 +77,10 @@
 																	class="float-label">Senha</label>
 															</div>
 															<div class="form-group form-default m-t-50">
-																<button class="btn waves-effect waves-light btn-primary">Novo</button>
+																<button type="button" class="btn waves-effect waves-light btn-primary" id="btnNovo">Novo</button>
 																<button class="btn waves-effect waves-light btn-success">Salvar</button>
 															</div>
-															<span class="text-success">${msg}</span>
+															<span class="text-success" id="msg">${msg}</span>
 														</form>
 													</div>
 												</div>
