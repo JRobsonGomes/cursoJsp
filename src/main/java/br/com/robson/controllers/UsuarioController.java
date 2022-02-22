@@ -23,12 +23,15 @@ public class UsuarioController extends HttpServlet {
 		super();
 	}
 
-	private void listarUsuarios(HttpServletRequest request, HttpServletResponse response)
+	private void listarUsuarios(HttpServletRequest request, HttpServletResponse response, Integer offset)
 			throws ServletException, IOException {
 		try {
 
-			List<Usuario> usuarios = dao.buscarTodos();
+			List<Usuario> usuarios = dao.buscarTodosPaginado(offset);
+			int totalPaginas = dao.totalPaginas();
+			
 			request.setAttribute("usuariosList", usuarios);
+			request.setAttribute("totalPaginas", totalPaginas);
 			request.getRequestDispatcher("usuario/").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,7 +73,7 @@ public class UsuarioController extends HttpServlet {
 
 			request.setAttribute("msg", msg);
 			request.setAttribute("usuario", usuario);
-			listarUsuarios(request, response);
+			listarUsuarios(request, response, 0);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,8 +86,24 @@ public class UsuarioController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			Integer offset = null;
+			String pagina = request.getParameter("pagina");
+			String acao = request.getParameter("acao");
 
-			listarUsuarios(request, response);
+			if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("deletar")) {
+				Long id = Long.parseLong(request.getParameter("id"));
+				 
+				 dao.deletar(id);
+				 request.setAttribute("msg", "Excluido com sucesso!");
+			}
+			
+			try {
+				offset = Integer.parseInt(pagina);
+			} catch (Exception e) {
+				offset = 0;
+			}
+
+			listarUsuarios(request, response, offset);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -165,7 +165,7 @@ public class UsuarioDao {
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario ORDER BY Nome LIMIT 8");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario ORDER BY nome LIMIT 8");
 			rs = st.executeQuery();
 			
 			List<Usuario> list = new ArrayList<>();
@@ -185,6 +185,86 @@ public class UsuarioDao {
 		} finally {
 			SingleConnectionBanco.closeStatement(st);
 			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
+	
+	public List<Usuario> buscarTodosPaginado(Integer offset) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = connection.prepareStatement("SELECT * FROM tb_usuario OFFSET ? LIMIT 8");
+			st.setInt(1, offset * 8);//Multiplicar por 8 pois vem da view 0, 1, 2 ...
+			rs = st.executeQuery();
+			
+			List<Usuario> list = new ArrayList<>();
+			while (rs.next()) {
+				Usuario obj = new Usuario();
+				obj.setId(rs.getLong("id"));
+				obj.setNome(rs.getString("nome"));
+				obj.setEmail(rs.getString("email"));
+				obj.setLogin(rs.getString("login"));
+				
+				list.add(obj);
+			}
+			
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
+	
+	public int totalPaginas() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = connection.prepareStatement("SELECT COUNT(1) AS total FROM tb_usuario");
+			rs = st.executeQuery();
+			rs.next();
+			
+			Double cadastros = rs.getDouble("total");
+			Double porPagina = 8.0; //Mesmo valor do limit do buscarTodosPaginado
+			Double total = cadastros / porPagina;
+			Double resto = total % 2;
+			
+			if (resto > 0) {
+				total ++;
+			}
+					
+			return total.intValue();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
+
+	public void deletar(Long id) {
+		PreparedStatement st = null;
+		
+		try {
+			st = connection.prepareStatement("DELETE FROM tb_usuario WHERE Id = ?");
+			
+			st.setLong(1, id);
+			
+			int rows = st.executeUpdate();
+			
+			connection.commit();
+			
+			if (rows == 0) {
+				throw new DbException("Erro ao excluir!");
+			}
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			SingleConnectionBanco.closeStatement(st);
 		}
 	}
 }

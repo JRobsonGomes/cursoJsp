@@ -106,7 +106,7 @@
 															</ul>
 														</div>
 													</div>
-													<div class="card-block table-border-style">
+													<div class="card-block table-border-style pb-2">
 														<div class="table-responsive">
 															<table class="table table-sm table-hover table-striped">
 																<thead>
@@ -115,6 +115,7 @@
 																		<th>Nome</th>
 																		<th>Email</th>
 																		<th>Login</th>
+																		<th>Ação</th>
 																	</tr>
 																</thead>
 																<tbody>
@@ -125,11 +126,27 @@
 																			<td><c:out value="${usu.nome}"></c:out></td>
 																			<td><c:out value="${usu.email}"></c:out></td>
 																			<td><c:out value="${usu.login}"></c:out></td>
+																			<td>
+																				<a href="?acao=editar&id=${usu.id}" class="btn btn-sm btn-info">Editar</a>
+																				<%-- <a href="?acao=deletar&id=${usu.id}" class="btn btn-sm btn-danger">Excluir</a> --%>
+																				<a href="javascript: confirmar(${usu.id}, '${usu.nome}')" class="btn btn-sm btn-danger">Excluir</a>
+																			</td>
 																		</tr>
 																	</c:forEach>
 																</tbody>
 															</table>
 														</div>
+													</div>
+													<div class="card-footer pt-0">
+														<ul class="pagination justify-content-center">
+															<%
+															int totalPaginas = (int) request.getAttribute("totalPaginas");
+															for (int p = 0; p < totalPaginas; p++) {
+																String url = request.getContextPath() + "/UsuarioController?pagina=" + p;
+																out.print("<li class=\"page-item\"><a class=\"page-link\" href=\"" + url + "\">" + (p + 1) + "</a></li>");
+															}
+															%>
+														</ul>
 													</div>
 												</div>
 											</div>

@@ -100,5 +100,13 @@
 			}
 		})
 	});
+	
+	
+	function confirmar(id, nome) {
+		let resposta = confirm("Deseja realmente excluir: " + nome);
+		if (resposta) {
+			window.location.href = "?acao=deletar&id=" + id;
+		}
+	}
 </script>
 
