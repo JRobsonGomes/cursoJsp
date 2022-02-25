@@ -84,6 +84,9 @@
 																	class="btn waves-effect waves-light btn-primary"
 																	id="btnNovo">Novo</button>
 																<button class="btn waves-effect waves-light btn-success">Salvar</button>
+																<button type="button" class="btn btn-info btn-outline-info"
+																	data-toggle="modal" data-target="#pesquisaUsuario">
+																	Persquisar</button>
 															</div>
 															<span class="text-success" id="msg">${msg}</span>
 														</form>
@@ -126,11 +129,10 @@
 																			<td><c:out value="${usu.nome}"></c:out></td>
 																			<td><c:out value="${usu.email}"></c:out></td>
 																			<td><c:out value="${usu.login}"></c:out></td>
-																			<td>
-																				<a href="?acao=editar&id=${usu.id}" class="btn btn-sm btn-info">Editar</a>
-																				<%-- <a href="?acao=deletar&id=${usu.id}" class="btn btn-sm btn-danger">Excluir</a> --%>
-																				<a href="javascript: confirmar(${usu.id}, '${usu.nome}')" class="btn btn-sm btn-danger">Excluir</a>
-																			</td>
+																			<td><a href="?acao=editar&id=${usu.id}"
+																				class="btn btn-sm btn-info">Editar</a> <a
+																				href="javascript: confirmar(${usu.id}, '${usu.nome}')"
+																				class="btn btn-sm btn-danger">Excluir</a></td>
 																		</tr>
 																	</c:forEach>
 																</tbody>
@@ -158,6 +160,50 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="pesquisaUsuario" tabindex="-1" role="dialog"
+		aria-labelledby="pesquisaUsuarioLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="pesquisaUsuarioLabel">Pesquisa de usuários</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3 col-sm-6">
+						<input type="search" class="form-control" placeholder="Digite o nome" id="nomeBusca">
+						<div class="input-group-append">
+							<button class="btn btn-outline-success" type="button" id="btnBusca">Buscar</button>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-sm table-hover table-striped"	id="consultaUsuariosResult">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Nome</th>
+									<th>Email</th>
+									<th>Login</th>
+									<th>Ação</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+					<span id="totalResultados"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Fechar</button>
 				</div>
 			</div>
 		</div>

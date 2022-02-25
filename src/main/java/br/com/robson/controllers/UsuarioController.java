@@ -3,6 +3,8 @@ package br.com.robson.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.robson.dao.UsuarioDao;
 import br.com.robson.models.Usuario;
 import jakarta.servlet.RequestDispatcher;
@@ -92,9 +94,21 @@ public class UsuarioController extends HttpServlet {
 
 			if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("deletar")) {
 				Long id = Long.parseLong(request.getParameter("id"));
-				 
-				 dao.deletar(id);
-				 request.setAttribute("msg", "Excluido com sucesso!");
+
+				dao.deletar(id);
+				request.setAttribute("msg", "Excluido com sucesso!");
+				
+			} else if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("buscarUserAjax")) {
+				String nomeBusca = request.getParameter("nomeBusca");
+
+				List<Usuario> dadosJsonUser = dao.buscarUsuarioConsulta(nomeBusca);
+
+				ObjectMapper mapper = new ObjectMapper();
+
+				String json = mapper.writeValueAsString(dadosJsonUser);
+
+				response.getWriter().write(json);
+				return;
 			}
 			
 			try {

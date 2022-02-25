@@ -20,6 +20,36 @@ public class UsuarioDao {
 		connection = SingleConnectionBanco.getConnection();
 	}
 
+	public List<Usuario> buscarUsuarioConsulta(String nome) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(nome) LIKE UPPER(?)");
+			st.setString(1, "%" + nome + "%");
+
+			rs = st.executeQuery();
+
+			List<Usuario> list = new ArrayList<>();
+			while (rs.next()) {
+				Usuario obj = new Usuario();
+				obj.setId(rs.getLong("id"));
+				obj.setNome(rs.getString("nome"));
+				obj.setEmail(rs.getString("email"));
+				obj.setLogin(rs.getString("login"));
+
+				list.add(obj);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
+
 	public Usuario buscarUsuario(String login) {
 		PreparedStatement st = null;
 		ResultSet rs = null;

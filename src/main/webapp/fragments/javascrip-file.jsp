@@ -90,7 +90,7 @@
 		})
 	}); */
 	
-	
+	/* Limpar formulário */
 	$('#btnNovo').click(function() {
 		$('#formUser :input, #formUser #msg').each(function(key, value) {
 			this.value = ''; //Limpa os inputs
@@ -101,12 +101,46 @@
 		})
 	});
 	
-	
+	/* Confirmar exclusão */
 	function confirmar(id, nome) {
 		let resposta = confirm("Deseja realmente excluir: " + nome);
 		if (resposta) {
 			window.location.href = "?acao=deletar&id=" + id;
 		}
 	}
+
+	
+	/* Buscar usuários */
+	$('#btnBusca').click(function() {
+		let nome = $('#nomeBusca').val();
+		if (nome != null && nome != '' && nome.trim() != '') {
+			var urlAction = $('formUser').attr('action');
+			/* var urlAction = document.getElementById('formUser').action; *///Outra forma com javaScript puro
+			$.ajax({
+				method : "get",
+				url : urlAction,
+				data : {
+					nomeBusca : nome,
+					acao : 'buscarUserAjax'
+				},
+				/* data : "nomeBusca=" + nome + '&acao=buscarUserAjax', *///Outra forma de fazer
+				success : function(response) {
+					var json = JSON.parse(response);
+
+					$('#consultaUsuariosResult > tbody > tr').remove();
+					
+					for(var p = 0; p < json.length; p++){
+					      $('#consultaUsuariosResult > tbody')
+					      .append("<tr> <td>" + json[p].id + "</td> <td>" + json[p].nome + "</td> <td>" + json[p].email + "</td> <td>" + json[p].login + "</td> <td><a href=\"#\"	class=\"btn btn-sm btn-info mr-2\">Editar</a><a href=\"javascript: confirmar(" + json[p].id + ", \'"+ json[p].nome +"\')\" class=\"btn btn-sm btn-danger\">Excluir</a></td></tr>");
+					  }
+					  
+					  $("#totalResultados").text('Resultados: ' + json.length);
+				}
+
+			}).fail(function(xhr, status, errorThrown) {
+				alert('Erro ao buscar usuário por nome: ' + xhr.responseText);
+			});
+		}
+	});
 </script>
 
