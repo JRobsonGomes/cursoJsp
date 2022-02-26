@@ -92,13 +92,16 @@
 	
 	/* Limpar formulário */
 	$('#btnNovo').click(function() {
-		$('#formUser :input, #formUser #msg').each(function(key, value) {
+		var urlAction = document.getElementById('formUser').action;
+	    window.location.href = urlAction;
+    
+		/* $('#formUser :input, #formUser #msg').each(function(key, value) {
 			this.value = ''; //Limpa os inputs
 			
 			if (this.id == 'msg') { //Limpa o span com id = msg
 				this.innerHTML = '';
 			}
-		})
+		}) */
 	});
 	
 	/* Confirmar exclusão */
@@ -113,7 +116,7 @@
 	function deleteComAjax(id, nome) {
 
 		if (confirm("Deseja realmente excluir: " + nome)) {
-			var urlAction = $('formUser').attr('action');
+			var urlAction = document.getElementById('formUser').action;
 
 			$.ajax({
 				method : "get",
@@ -153,8 +156,8 @@
 	/* Buscar usuários */
 	function buscarUsuarios(nome) {
 		if (nome != null && nome != '' && nome.trim() != '') {
-			var urlAction = $('formUser').attr('action');
-			/* var urlAction = document.getElementById('formUser').action; *///Outra forma com javaScript puro
+			var urlAction = document.getElementById('formUser').action;//Outra forma com javaScript puro
+			
 			$.ajax({
 				method : "get",
 				url : urlAction,
@@ -188,7 +191,7 @@
 									+ json[p].email
 									+ "</td> <td>"
 									+ json[p].login
-									+ "</td> <td><a href=\"#\"	class=\"btn btn-sm btn-info mr-2\">Editar</a><a href=\"javascript: deleteComAjax("
+									+ "</td> <td><a href=\"?acao=editar&id=" + json[p].id + "\" class=\"btn btn-sm btn-info mr-2\">Editar</a><a href=\"javascript: deleteComAjax("
 									+ json[p].id
 									+ ", \'"
 									+ json[p].nome

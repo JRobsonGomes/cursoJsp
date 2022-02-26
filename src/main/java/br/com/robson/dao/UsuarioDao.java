@@ -223,7 +223,7 @@ public class UsuarioDao {
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario OFFSET ? LIMIT 8");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario ORDER BY id OFFSET ? LIMIT 8");
 			st.setInt(1, offset * 8);//Multiplicar por 8 pois vem da view 0, 1, 2 ...
 			rs = st.executeQuery();
 			

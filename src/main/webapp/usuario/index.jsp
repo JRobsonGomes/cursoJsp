@@ -3,6 +3,10 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%
+String titulo = (String) request.getAttribute("tituloForm");
+%>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -41,8 +45,7 @@
 											<div class="col-sm-12 col-md-4">
 												<div class="card">
 													<div class="card-header">
-														<h5>Cadastro de usuário</h5>
-														<!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
+														<h5><%=titulo = titulo != null ? titulo : "Cadastro"%> de usuário</h5>
 													</div>
 													<div class="card-block">
 														<form id="formUser" class="form-material needs-validation"

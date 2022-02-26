@@ -75,6 +75,7 @@ public class UsuarioController extends HttpServlet {
 			}
 
 			request.setAttribute("msg", msg);
+			request.setAttribute("tituloForm", "Edição");
 			request.setAttribute("usuario", usuario);
 			listarUsuarios(request, response, 0);
 
@@ -114,8 +115,15 @@ public class UsuarioController extends HttpServlet {
 				String json = mapper.writeValueAsString(dadosJsonUser);
 
 				response.getWriter().write(json);
-				
 				return;
+				
+			} else if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("editar")) {
+				Long id = Long.parseLong(request.getParameter("id"));
+
+				Usuario usuario = dao.buscarUsuario(id);
+
+				request.setAttribute("tituloForm", "Edição");
+				request.setAttribute("usuario", usuario);
 			}
 
 			try {
