@@ -109,10 +109,49 @@
 		}
 	}
 
+	/* Deletar com Ajax */
+	function deleteComAjax(id, nome) {
+
+		if (confirm("Deseja realmente excluir: " + nome)) {
+			var urlAction = $('formUser').attr('action');
+
+			$.ajax({
+				method : "get",
+				url : urlAction,
+				data : {
+					id: id,
+					acao: 'deletarAjax'
+				},
+				success : function(response) {
+					$('#msgModal').text(response);
+					
+					/* Buscar usuários sempre que excluir*/
+					let nome = $('#nomeBusca').val();
+					buscarUsuarios(nome);
+				}
+
+			}).fail(function(xhr, status, errorThrown) {
+				alert('Erro ao deletar usuário por id: ' + xhr.responseText);
+			});
+		}
+	}
 	
-	/* Buscar usuários */
+	/* Buscar usuários ao clicar em  btnBusca*/
 	$('#btnBusca').click(function() {
 		let nome = $('#nomeBusca').val();
+		buscarUsuarios(nome);
+	});
+
+	/* Limpar modal de consulta ao fechar*/
+	$("#pesquisaUsuario").on("hidden.bs.modal", function() {
+		$('#consultaUsuariosResult > tbody > tr').remove();
+		$('#nomeBusca').val('');
+		$("#totalResultados").text('');
+		$('#msgModal').text('');
+	});
+
+	/* Buscar usuários */
+	function buscarUsuarios(nome) {
 		if (nome != null && nome != '' && nome.trim() != '') {
 			var urlAction = $('formUser').attr('action');
 			/* var urlAction = document.getElementById('formUser').action; *///Outra forma com javaScript puro
@@ -125,22 +164,38 @@
 				},
 				/* data : "nomeBusca=" + nome + '&acao=buscarUserAjax', *///Outra forma de fazer
 				success : function(response) {
-					var json = JSON.parse(response);
-
-					$('#consultaUsuariosResult > tbody > tr').remove();
-					
-					for(var p = 0; p < json.length; p++){
-					      $('#consultaUsuariosResult > tbody')
-					      .append("<tr> <td>" + json[p].id + "</td> <td>" + json[p].nome + "</td> <td>" + json[p].email + "</td> <td>" + json[p].login + "</td> <td><a href=\"#\"	class=\"btn btn-sm btn-info mr-2\">Editar</a><a href=\"javascript: confirmar(" + json[p].id + ", \'"+ json[p].nome +"\')\" class=\"btn btn-sm btn-danger\">Excluir</a></td></tr>");
-					  }
-					  
-					  $("#totalResultados").text('Resultados: ' + json.length);
+					popularModal(response);
 				}
 
 			}).fail(function(xhr, status, errorThrown) {
 				alert('Erro ao buscar usuário por nome: ' + xhr.responseText);
 			});
 		}
-	});
+	}
+
+	function popularModal(response) {
+		var json = JSON.parse(response);
+		$('#consultaUsuariosResult > tbody > tr').remove();
+
+		for (var p = 0; p < json.length; p++) {
+			$('#consultaUsuariosResult > tbody')
+					.append(
+							"<tr> <td>"
+									+ json[p].id
+									+ "</td> <td>"
+									+ json[p].nome
+									+ "</td> <td>"
+									+ json[p].email
+									+ "</td> <td>"
+									+ json[p].login
+									+ "</td> <td><a href=\"#\"	class=\"btn btn-sm btn-info mr-2\">Editar</a><a href=\"javascript: deleteComAjax("
+									+ json[p].id
+									+ ", \'"
+									+ json[p].nome
+									+ "\')\" class=\"btn btn-sm btn-danger\">Excluir</a></td></tr>");
+		}
+
+		$("#totalResultados").text('Resultados: ' + json.length);
+	}
 </script>
 

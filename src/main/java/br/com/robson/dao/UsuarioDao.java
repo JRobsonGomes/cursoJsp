@@ -25,7 +25,7 @@ public class UsuarioDao {
 		ResultSet rs = null;
 
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(nome) LIKE UPPER(?)");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(nome) LIKE UPPER(?) ORDER BY id");
 			st.setString(1, "%" + nome + "%");
 
 			rs = st.executeQuery();
@@ -259,7 +259,7 @@ public class UsuarioDao {
 			Double cadastros = rs.getDouble("total");
 			Double porPagina = 8.0; //Mesmo valor do limit do buscarTodosPaginado
 			Double total = cadastros / porPagina;
-			Double resto = total % 2;
+			Double resto = total % 1;//Se numero por pagina for impar aqui tem que ser par e vice-versa
 			
 			if (resto > 0) {
 				total ++;

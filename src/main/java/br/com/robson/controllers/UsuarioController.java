@@ -1,6 +1,7 @@
 package br.com.robson.controllers;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -92,11 +93,16 @@ public class UsuarioController extends HttpServlet {
 			String pagina = request.getParameter("pagina");
 			String acao = request.getParameter("acao");
 
-			if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("deletar")) {
+			if (acao != null && !acao.isBlank() && Arrays.asList("deletar", "deletarAjax").contains(acao)) {
 				Long id = Long.parseLong(request.getParameter("id"));
 
 				dao.deletar(id);
-				request.setAttribute("msg", "Excluido com sucesso!");
+				if (acao.equalsIgnoreCase("deletar")) {
+					request.setAttribute("msg", "Excluido com sucesso!");
+				} else {
+					response.getWriter().write("Excluido com sucesso!");
+					return; //Interrompe o processamento para baixo
+				}
 				
 			} else if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("buscarUserAjax")) {
 				String nomeBusca = request.getParameter("nomeBusca");
@@ -108,9 +114,10 @@ public class UsuarioController extends HttpServlet {
 				String json = mapper.writeValueAsString(dadosJsonUser);
 
 				response.getWriter().write(json);
+				
 				return;
 			}
-			
+
 			try {
 				offset = Integer.parseInt(pagina);
 			} catch (Exception e) {

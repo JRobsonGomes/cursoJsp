@@ -184,6 +184,9 @@
 							<button class="btn btn-outline-success" type="button" id="btnBusca">Buscar</button>
 						</div>
 					</div>
+					<div class="input-group mb-3 col-sm-6">
+						<span class="text-success" id="msgModal"></span>
+					</div>
 					<div class="table-responsive">
 						<table class="table table-sm table-hover table-striped"	id="consultaUsuariosResult">
 							<thead>
@@ -203,7 +206,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Fechar</button>
+						data-dismiss="modal" id="btnFecharModal">Fechar</button>
 				</div>
 			</div>
 		</div>
