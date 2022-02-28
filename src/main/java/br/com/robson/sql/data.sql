@@ -35,3 +35,10 @@ SELECT * FROM tb_usuario;
 GRANT ALL ON SEQUENCE public.tb_usuario_id_seq TO robson;
 
 GRANT ALL ON TABLE public.tb_usuario TO robson;
+
+--Inserindo coluna user_admin para definir quem é administrador
+ALTER TABLE tb_usuario ADD COLUMN user_admin BOOLEAN NOT NULL DEFAULT FALSE;
+
+--Setando o primeiro administrador
+UPDATE tb_usuario SET user_admin=TRUE WHERE id = 1;
+

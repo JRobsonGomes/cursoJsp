@@ -25,7 +25,7 @@ public class UsuarioDao {
 		ResultSet rs = null;
 
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(nome) LIKE UPPER(?) ORDER BY id");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(nome) LIKE UPPER(?) AND user_admin IS FALSE ORDER BY id");
 			st.setString(1, "%" + nome + "%");
 
 			rs = st.executeQuery();
@@ -84,7 +84,7 @@ public class UsuarioDao {
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE id = ?");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE id = ? AND user_admin IS FALSE");
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			
@@ -147,7 +147,7 @@ public class UsuarioDao {
 		ResultSet rs = null;
 
 		try {
-			String sql = "SELECT * FROM tb_usuario WHERE UPPER(login) = UPPER(?) and UPPER(senha) = UPPER(?) ";
+			String sql = "SELECT * FROM tb_usuario WHERE UPPER(login) = UPPER(?) AND UPPER(senha) = UPPER(?) ";
 
 			st = connection.prepareStatement(sql);
 			st.setString(1, usuario.getLogin());
@@ -195,7 +195,7 @@ public class UsuarioDao {
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario ORDER BY nome LIMIT 8");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE user_admin IS FALSE ORDER BY nome LIMIT 8");
 			rs = st.executeQuery();
 			
 			List<Usuario> list = new ArrayList<>();
@@ -223,7 +223,7 @@ public class UsuarioDao {
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario ORDER BY id OFFSET ? LIMIT 8");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE user_admin IS FALSE ORDER BY id OFFSET ? LIMIT 8");
 			st.setInt(1, offset * 8);//Multiplicar por 8 pois vem da view 0, 1, 2 ...
 			rs = st.executeQuery();
 			
@@ -252,7 +252,7 @@ public class UsuarioDao {
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT COUNT(1) AS total FROM tb_usuario");
+			st = connection.prepareStatement("SELECT COUNT(1) AS total FROM tb_usuario WHERE user_admin IS FALSE");
 			rs = st.executeQuery();
 			rs.next();
 			
@@ -278,7 +278,7 @@ public class UsuarioDao {
 		PreparedStatement st = null;
 		
 		try {
-			st = connection.prepareStatement("DELETE FROM tb_usuario WHERE Id = ?");
+			st = connection.prepareStatement("DELETE FROM tb_usuario WHERE Id = ? AND user_admin IS FALSE");
 			
 			st.setLong(1, id);
 			
