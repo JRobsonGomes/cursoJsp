@@ -8,15 +8,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.robson.dao.UsuarioDao;
 import br.com.robson.models.Usuario;
+import br.com.robson.utils.ServletGenericUtil;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/UsuarioController")
-public class UsuarioController extends HttpServlet {
+public class UsuarioController extends ServletGenericUtil {
 	private static final long serialVersionUID = 1L;
 
 	private Usuario usuario;
@@ -30,8 +30,8 @@ public class UsuarioController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 
-			List<Usuario> usuarios = dao.buscarTodosPaginado(offset);
-			int totalPaginas = dao.totalPaginas();
+			List<Usuario> usuarios = dao.buscarTodosPaginado(offset, super.getUserLogado(request).getId());
+			int totalPaginas = dao.totalPaginas(super.getUserLogado(request).getId());
 			
 			request.setAttribute("usuariosList", usuarios);
 			request.setAttribute("totalPaginas", totalPaginas);
@@ -108,7 +108,7 @@ public class UsuarioController extends HttpServlet {
 			} else if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("buscarUserAjax")) {
 				String nomeBusca = request.getParameter("nomeBusca");
 
-				List<Usuario> dadosJsonUser = dao.buscarUsuarioConsulta(nomeBusca);
+				List<Usuario> dadosJsonUser = dao.buscarUsuarioConsulta(nomeBusca, super.getUserLogado(request).getId());
 
 				ObjectMapper mapper = new ObjectMapper();
 
@@ -120,7 +120,7 @@ public class UsuarioController extends HttpServlet {
 			} else if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("editar")) {
 				Long id = Long.parseLong(request.getParameter("id"));
 
-				Usuario usuario = dao.buscarUsuario(id);
+				Usuario usuario = dao.buscarUsuario(id, super.getUserLogado(request).getId());
 
 				request.setAttribute("tituloForm", "Edição");
 				request.setAttribute("usuario", usuario);
@@ -155,12 +155,14 @@ public class UsuarioController extends HttpServlet {
 			String email = request.getParameter("email");
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
+			Long usuarioId = super.getUserLogado(request).getId();
 
 			usuario.setId(id != null && !id.isBlank() ? Long.parseLong(id) : null);
 			usuario.setNome(nome);
 			usuario.setEmail(email);
 			usuario.setLogin(login);
 			usuario.setSenha(senha);
+			usuario.setUsuarioId(usuarioId);
 
 		} catch (Exception e) {
 			throw new Exception("Erro ao setar usuario!");

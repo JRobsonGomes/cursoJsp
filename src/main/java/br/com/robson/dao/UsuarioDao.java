@@ -20,13 +20,14 @@ public class UsuarioDao {
 		connection = SingleConnectionBanco.getConnection();
 	}
 
-	public List<Usuario> buscarUsuarioConsulta(String nome) {
+	public List<Usuario> buscarUsuarioConsulta(String nome, Long usuarioId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(nome) LIKE UPPER(?) AND user_admin IS FALSE ORDER BY id");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(nome) LIKE UPPER(?) AND user_admin IS FALSE AND usuario_id = ? ORDER BY id");
 			st.setString(1, "%" + nome + "%");
+			st.setLong(2, usuarioId);
 
 			rs = st.executeQuery();
 
@@ -79,13 +80,14 @@ public class UsuarioDao {
 		}
 	}
 	
-	public Usuario buscarUsuario(Long id) {
+	public Usuario buscarUsuario(Long id, Long usuarioId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE id = ? AND user_admin IS FALSE");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE id = ? AND user_admin IS FALSE AND usuario_id = ?");
 			st.setLong(1, id);
+			st.setLong(2, usuarioId);
 			rs = st.executeQuery();
 			
 			if (rs.next()) {
@@ -110,8 +112,8 @@ public class UsuarioDao {
 
 	public void salvar(Usuario usuario) throws Exception {
 		PreparedStatement st = null;
-		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email) VALUES (?, ?, ?, ?)"
-				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=? WHERE id = ?";
+		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_id) VALUES (?, ?, ?, ?, ?)"
+				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_id=? WHERE id = ?";
 
 		try {
 			st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -120,7 +122,8 @@ public class UsuarioDao {
 			st.setString(2, usuario.getSenha());
 			st.setString(3, usuario.getNome());
 			st.setString(4, usuario.getEmail());
-			if (usuario.getId() != null) st.setLong(5, usuario.getId());
+			st.setLong(5, usuario.getUsuarioId());
+			if (usuario.getId() != null) st.setLong(6, usuario.getId());
 
 			int rowsAffected = st.executeUpdate();
 			connection.commit();
@@ -218,13 +221,14 @@ public class UsuarioDao {
 		}
 	}
 	
-	public List<Usuario> buscarTodosPaginado(Integer offset) {
+	public List<Usuario> buscarTodosPaginado(Integer offset, Long usuarioId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE user_admin IS FALSE ORDER BY id OFFSET ? LIMIT 8");
-			st.setInt(1, offset * 8);//Multiplicar por 8 pois vem da view 0, 1, 2 ...
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE usuario_id = ? AND user_admin IS FALSE ORDER BY id OFFSET ? LIMIT 8");
+			st.setLong(1, usuarioId);
+			st.setInt(2, offset * 8);//Multiplicar por 8 pois vem da view 0, 1, 2 ...
 			rs = st.executeQuery();
 			
 			List<Usuario> list = new ArrayList<>();
@@ -247,12 +251,13 @@ public class UsuarioDao {
 		}
 	}
 	
-	public int totalPaginas() {
+	public int totalPaginas(Long usuarioId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT COUNT(1) AS total FROM tb_usuario WHERE user_admin IS FALSE");
+			st = connection.prepareStatement("SELECT COUNT(1) AS total FROM tb_usuario WHERE user_admin IS FALSE AND usuario_id = ?");
+			st.setLong(1, usuarioId);
 			rs = st.executeQuery();
 			rs.next();
 			
