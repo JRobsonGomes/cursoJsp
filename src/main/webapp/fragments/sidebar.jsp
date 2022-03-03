@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 
 <%@ page import="br.com.robson.models.Usuario"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%
 Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLogado");
 %>
@@ -58,12 +61,15 @@ Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLoga
 					class="pcoded-mcaret"></span>
 			</a>
 				<ul class="pcoded-submenu">
-					<li class=" "><a href="<%=request.getContextPath()%>/UsuarioController"
-						class="waves-effect waves-dark"> <span class="pcoded-micon"><i
-								class="ti-angle-right"></i></span> <span class="pcoded-mtext"
-							data-i18n="nav.basic-components.alert">Usuário</span> <span
-							class="pcoded-mcaret"></span>
-					</a></li>
+					<c:if test="<%=usuarioLogado.isUserAdmin()%>">
+						<li class=" "><a
+							href="<%=request.getContextPath()%>/UsuarioController"
+							class="waves-effect waves-dark"> <span class="pcoded-micon"><i
+									class="ti-angle-right"></i></span> <span class="pcoded-mtext"
+								data-i18n="nav.basic-components.alert">Usuário</span> <span
+								class="pcoded-mcaret"></span>
+						</a></li>
+					</c:if>
 					<li class=" "><a href="breadcrumb.html"
 						class="waves-effect waves-dark"> <span class="pcoded-micon"><i
 								class="ti-angle-right"></i></span> <span class="pcoded-mtext"

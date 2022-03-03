@@ -49,6 +49,7 @@ public class LoginController extends HttpServlet {
 
 				if (usuarioDao.validarAutenticacao(usuario)) { /* Simulando login */
 
+					usuario = usuarioDao.buscarUsuario(login);
 					request.getSession().setAttribute("usuarioLogado", usuario);
 
 					if (url == null || url.equals("null")) {

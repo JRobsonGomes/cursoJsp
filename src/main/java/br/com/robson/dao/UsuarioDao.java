@@ -67,6 +67,8 @@ public class UsuarioDao {
 				obj.setEmail(rs.getString("email"));
 				obj.setLogin(rs.getString("login"));
 				obj.setSenha(rs.getString("senha"));
+				obj.setUserAdmin(rs.getBoolean("user_admin"));
+				obj.setUsuarioId(rs.getLong("usuario_id"));
 				
 				return obj;
 			}

@@ -12,6 +12,7 @@ public class Usuario implements Serializable {
 	private String login;
 	private String senha;
 	private Long usuarioId;
+	private boolean userAdmin;
 	
 	public Usuario() {
 	}
@@ -76,6 +77,14 @@ public class Usuario implements Serializable {
 
 	public void setUsuarioId(Long usuarioId) {
 		this.usuarioId = usuarioId;
+	}
+
+	public boolean isUserAdmin() {
+		return userAdmin;
+	}
+
+	public void setUserAdmin(boolean userAdmin) {
+		this.userAdmin = userAdmin;
 	}
 
 	@Override
