@@ -10,6 +10,7 @@ import java.util.List;
 
 import br.com.robson.connection.DbException;
 import br.com.robson.connection.SingleConnectionBanco;
+import br.com.robson.enums.PerfilUsuario;
 import br.com.robson.models.Usuario;
 
 public class UsuarioDao {
@@ -38,6 +39,7 @@ public class UsuarioDao {
 				obj.setNome(rs.getString("nome"));
 				obj.setEmail(rs.getString("email"));
 				obj.setLogin(rs.getString("login"));
+				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
 
 				list.add(obj);
 			}
@@ -69,6 +71,7 @@ public class UsuarioDao {
 				obj.setSenha(rs.getString("senha"));
 				obj.setUserAdmin(rs.getBoolean("user_admin"));
 				obj.setUsuarioId(rs.getLong("usuario_id"));
+				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
 				
 				return obj;
 			}
@@ -99,6 +102,7 @@ public class UsuarioDao {
 				obj.setEmail(rs.getString("email"));
 				obj.setLogin(rs.getString("login"));
 				obj.setSenha(rs.getString("senha"));
+				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
 				
 				return obj;
 			}
@@ -114,8 +118,8 @@ public class UsuarioDao {
 
 	public void salvar(Usuario usuario) throws Exception {
 		PreparedStatement st = null;
-		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_id) VALUES (?, ?, ?, ?, ?)"
-				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_id=? WHERE id = ?";
+		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_id, perfil) VALUES (?, ?, ?, ?, ?, ?)"
+				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_id=?, perfil=? WHERE id = ?";
 
 		try {
 			st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -125,7 +129,8 @@ public class UsuarioDao {
 			st.setString(3, usuario.getNome());
 			st.setString(4, usuario.getEmail());
 			st.setLong(5, usuario.getUsuarioId());
-			if (usuario.getId() != null) st.setLong(6, usuario.getId());
+			st.setString(6, usuario.getPerfil().name());
+			if (usuario.getId() != null) st.setLong(7, usuario.getId());
 
 			int rowsAffected = st.executeUpdate();
 			connection.commit();
@@ -210,6 +215,7 @@ public class UsuarioDao {
 				obj.setNome(rs.getString("nome"));
 				obj.setEmail(rs.getString("email"));
 				obj.setLogin(rs.getString("login"));
+				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
 				
 				list.add(obj);
 			}
@@ -240,6 +246,7 @@ public class UsuarioDao {
 				obj.setNome(rs.getString("nome"));
 				obj.setEmail(rs.getString("email"));
 				obj.setLogin(rs.getString("login"));
+				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
 				
 				list.add(obj);
 			}

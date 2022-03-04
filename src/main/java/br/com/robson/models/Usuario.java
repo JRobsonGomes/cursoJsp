@@ -3,6 +3,8 @@ package br.com.robson.models;
 import java.io.Serializable;
 import java.util.Objects;
 
+import br.com.robson.enums.PerfilUsuario;
+
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -13,6 +15,7 @@ public class Usuario implements Serializable {
 	private String senha;
 	private Long usuarioId;
 	private boolean userAdmin;
+	private PerfilUsuario perfil;
 	
 	public Usuario() {
 	}
@@ -85,6 +88,14 @@ public class Usuario implements Serializable {
 
 	public void setUserAdmin(boolean userAdmin) {
 		this.userAdmin = userAdmin;
+	}
+
+	public PerfilUsuario getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(PerfilUsuario perfil) {
+		this.perfil = perfil;
 	}
 
 	@Override

@@ -12,6 +12,8 @@ String titulo = (String) request.getAttribute("tituloForm");
 
 <jsp:include page="../fragments/head.jsp"></jsp:include>
 
+<%@ page import="br.com.robson.enums.PerfilUsuario"%>
+
 <body>
 	<!-- Pre-loader start -->
 
@@ -52,11 +54,39 @@ String titulo = (String) request.getAttribute("tituloForm");
 															method="post"
 															action="<%=request.getContextPath()%>/UsuarioController"
 															novalidate>
-															<div class="form-group form-default form-static-label">
-																<input type="text" name="id" id="id"
-																	class="form-control" value="${usuario.id}" required
-																	readonly="readonly"> <span class="form-bar"></span>
-																<label class="float-label">Id</label>
+															<div class="form-group form-default form-static-label d-flex">
+																<div class="col-sm-3 pl-0">
+																	<input type="text" name="id" id="id"
+																		class="form-control" value="${usuario.id}" required
+																		readonly="readonly"> <span class="form-bar"></span>
+																	<label class="float-label">Id</label>
+																</div>
+																<div class="col-sm-9 px-0">
+																	<select name="perfil" class="form-control">
+																		<option disabled="disabled" selected="selected">
+																			Selecione o Perfil
+																		</option>
+																		<option value="<%= PerfilUsuario.ADMIN %>"
+																			${usuario.perfil == 'ADMIN' ? 'selected="selected"' : ''}>
+																			Admin
+																		</option>
+																		<option value="<%=PerfilUsuario.AUXILIAR%>"
+																			${usuario.perfil == 'AUXILIAR' ? 'selected="selected"' : ''}>
+																			Auxiliar
+																		</option>
+																		<option value="<%=PerfilUsuario.GERENTE%>"
+																			${usuario.perfil == 'GERENTE' ? 'selected="selected"' : ''}>
+																			Gerente
+																		</option>
+																		<option value="<%=PerfilUsuario.SECRETARIA%>"
+																			${usuario.perfil == 'SECRETARIA' ? 'selected="selected"' : ''}>
+																			Secretaria
+																		</option>
+																	</select>
+																	<label class="float-label" style="color: #455a64">
+																		Perfil
+																	</label>
+																</div>
 															</div>
 															<div class="form-group form-default">
 																<input type="text" name="nome" id="nome"
@@ -121,6 +151,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 																		<th>Nome</th>
 																		<th>Email</th>
 																		<th>Login</th>
+																		<th>Perfil</th>
 																		<th>Ação</th>
 																	</tr>
 																</thead>
@@ -132,6 +163,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 																			<td><c:out value="${usu.nome}"></c:out></td>
 																			<td><c:out value="${usu.email}"></c:out></td>
 																			<td><c:out value="${usu.login}"></c:out></td>
+																			<td><c:out value="${usu.perfil}"></c:out></td>
 																			<td><a href="?acao=editar&id=${usu.id}"
 																				class="btn btn-sm btn-info">Editar</a> <a
 																				href="javascript: confirmar(${usu.id}, '${usu.nome}')"
@@ -198,6 +230,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 									<th>Nome</th>
 									<th>Email</th>
 									<th>Login</th>
+									<th>Perfil</th>
 									<th>Ação</th>
 								</tr>
 							</thead>

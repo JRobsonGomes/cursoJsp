@@ -42,10 +42,12 @@ ALTER TABLE tb_usuario ADD COLUMN user_admin BOOLEAN NOT NULL DEFAULT FALSE;
 --Setando o primeiro administrador
 UPDATE tb_usuario SET user_admin=TRUE WHERE id = 1;
 
---Inserindo coluna tb_usuario para definir quem é dono dos registros
+--Inserindo coluna usuario_id para definir quem é dono dos registros
 ALTER TABLE tb_usuario ADD COLUMN usuario_id BIGINT NOT NULL DEFAULT 1;
 
 --Adicionando constraint usuario_id
 ALTER TABLE tb_usuario ADD CONSTRAINT usuario_fk FOREIGN KEY (usuario_id) REFERENCES tb_usuario (id);
 
+--Inserindo coluna perfil
+ALTER TABLE tb_usuario ADD COLUMN perfil character varying(25) NOT NULL DEFAULT 'AUXILIAR';
 

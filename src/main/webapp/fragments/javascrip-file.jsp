@@ -191,6 +191,8 @@
 									+ json[p].email
 									+ "</td> <td>"
 									+ json[p].login
+									+ "</td> <td>"
+									+ json[p].perfil
 									+ "</td> <td><a href=\"?acao=editar&id=" + json[p].id + "\" class=\"btn btn-sm btn-info mr-2\">Editar</a><a href=\"javascript: deleteComAjax("
 									+ json[p].id
 									+ ", \'"

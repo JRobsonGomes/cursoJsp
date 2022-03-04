@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.robson.dao.UsuarioDao;
+import br.com.robson.enums.PerfilUsuario;
 import br.com.robson.models.Usuario;
 import br.com.robson.utils.ServletGenericUtil;
 import jakarta.servlet.RequestDispatcher;
@@ -155,6 +156,7 @@ public class UsuarioController extends ServletGenericUtil {
 			String email = request.getParameter("email");
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
+			String perfil = request.getParameter("perfil");
 			Long usuarioId = super.getUserLogado(request).getId();
 
 			usuario.setId(id != null && !id.isBlank() ? Long.parseLong(id) : null);
@@ -162,6 +164,7 @@ public class UsuarioController extends ServletGenericUtil {
 			usuario.setEmail(email);
 			usuario.setLogin(login);
 			usuario.setSenha(senha);
+			usuario.setPerfil(PerfilUsuario.valueOf(perfil));
 			usuario.setUsuarioId(usuarioId);
 
 		} catch (Exception e) {
