@@ -157,6 +157,7 @@ public class UsuarioController extends ServletGenericUtil {
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
 			String perfil = request.getParameter("perfil");
+			String sexo = request.getParameter("sexo");
 			Long usuarioId = super.getUserLogado(request).getId();
 
 			usuario.setId(id != null && !id.isBlank() ? Long.parseLong(id) : null);
@@ -166,6 +167,7 @@ public class UsuarioController extends ServletGenericUtil {
 			usuario.setSenha(senha);
 			usuario.setPerfil(PerfilUsuario.valueOf(perfil));
 			usuario.setUsuarioId(usuarioId);
+			usuario.setSexo(sexo);
 
 		} catch (Exception e) {
 			throw new Exception("Erro ao setar usuario!");

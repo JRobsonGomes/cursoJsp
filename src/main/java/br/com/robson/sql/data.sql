@@ -51,3 +51,8 @@ ALTER TABLE tb_usuario ADD CONSTRAINT usuario_fk FOREIGN KEY (usuario_id) REFERE
 --Inserindo coluna perfil
 ALTER TABLE tb_usuario ADD COLUMN perfil character varying(25) NOT NULL DEFAULT 'AUXILIAR';
 
+--Inserindo coluna perfil
+ALTER TABLE tb_usuario ADD COLUMN sexo character varying(20);
+
+
+

@@ -103,6 +103,7 @@ public class UsuarioDao {
 				obj.setLogin(rs.getString("login"));
 				obj.setSenha(rs.getString("senha"));
 				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
+				obj.setSexo(rs.getString("sexo"));
 				
 				return obj;
 			}
@@ -118,8 +119,8 @@ public class UsuarioDao {
 
 	public void salvar(Usuario usuario) throws Exception {
 		PreparedStatement st = null;
-		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_id, perfil) VALUES (?, ?, ?, ?, ?, ?)"
-				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_id=?, perfil=? WHERE id = ?";
+		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_id, perfil, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)"
+				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_id=?, perfil=?, sexo=? WHERE id = ?";
 
 		try {
 			st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -130,7 +131,8 @@ public class UsuarioDao {
 			st.setString(4, usuario.getEmail());
 			st.setLong(5, usuario.getUsuarioId());
 			st.setString(6, usuario.getPerfil().name());
-			if (usuario.getId() != null) st.setLong(7, usuario.getId());
+			st.setString(7, usuario.getSexo());
+			if (usuario.getId() != null) st.setLong(8, usuario.getId());
 
 			int rowsAffected = st.executeUpdate();
 			connection.commit();

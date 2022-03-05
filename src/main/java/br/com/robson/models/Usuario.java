@@ -16,6 +16,7 @@ public class Usuario implements Serializable {
 	private Long usuarioId;
 	private boolean userAdmin;
 	private PerfilUsuario perfil;
+	private String sexo;
 	
 	public Usuario() {
 	}
@@ -96,6 +97,14 @@ public class Usuario implements Serializable {
 
 	public void setPerfil(PerfilUsuario perfil) {
 		this.perfil = perfil;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 
 	@Override

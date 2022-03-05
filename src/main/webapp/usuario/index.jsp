@@ -54,16 +54,16 @@ String titulo = (String) request.getAttribute("tituloForm");
 															method="post"
 															action="<%=request.getContextPath()%>/UsuarioController"
 															novalidate>
-															<div class="form-group form-default form-static-label d-flex">
-																<div class="col-sm-3 pl-0">
+															<div class="form-group form-static-label d-flex">
+																<div class="col-sm-3 p-l-0">
 																	<input type="text" name="id" id="id"
 																		class="form-control" value="${usuario.id}" required
 																		readonly="readonly"> <span class="form-bar"></span>
 																	<label class="float-label">Id</label>
 																</div>
 																<div class="col-sm-9 px-0">
-																	<select name="perfil" class="form-control">
-																		<option disabled="disabled" selected="selected">
+																	<select name="perfil" class="form-control" required>
+																		<option value="" disabled="disabled" selected="selected">
 																			Selecione o Perfil
 																		</option>
 																		<option value="<%= PerfilUsuario.ADMIN %>"
@@ -111,6 +111,18 @@ String titulo = (String) request.getAttribute("tituloForm");
 																	class="form-control" value="${usuario.senha}" required
 																	maxlength="8"> <span class="form-bar"></span> <label
 																	class="float-label">Senha</label>
+															</div>
+															<div class="form-group d-flex">
+																<div class="p-r-10">
+																	<input type="radio" name="sexo" value="MASCULINO" ${usuario.sexo == 'MASCULINO' ? 'checked="checked"' : ''}
+																		class="form-radio" value="${usuario.sexo}" required>
+																		<label class="static-label">Masculino</label>
+																</div>
+																<div class="p-l-10">
+																	<input type="radio" name="sexo" value="FEMININO" ${usuario.sexo == 'FEMININO' ? 'checked="checked"' : ''}
+																		class="form-radio" value="${usuario.sexo}" required>
+																		<label class="static-label">Feminino</label>
+																</div>
 															</div>
 															<div class="form-group form-default m-t-50">
 																<button type="button"
