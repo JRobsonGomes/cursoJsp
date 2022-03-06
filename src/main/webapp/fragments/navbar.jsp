@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 
 <%@ page import="br.com.robson.models.Usuario"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%
 Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLogado");
 %>
@@ -64,9 +67,12 @@ Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLoga
 						</li>
 						<li class="waves-effect waves-light">
 							<div class="media">
-								<img class="d-flex align-self-center img-radius"
-									src="<%=request.getContextPath()%>/assets/images/avatar-2.jpg"
-									alt="Generic placeholder image">
+								<c:if test="${usuarioLogado.foto != null && usuarioLogado.foto != ''}">
+									<img class="d-flex align-self-center img-radius" src="${usuarioLogado.foto}" alt="Generic placeholder image">
+								</c:if>
+								<c:if test="${usuarioLogado.foto == null || usuarioLogado.foto == ''}">
+									<img class="d-flex align-self-center img-radius" src="<%=request.getContextPath()%>/assets/images/avatar-blank.jpg" alt="Generic placeholder image">
+								</c:if>
 								<div class="media-body">
 									<h5 class="notification-user"><%=usuarioLogado.getLogin()%></h5>
 									<p class="notification-msg">Lorem ipsum dolor sit amet,
@@ -103,10 +109,15 @@ Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLoga
 						</li>
 					</ul></li>
 				<li class="user-profile header-notification"><a href="#!"
-					class="waves-effect waves-light"> <img
-						src="<%=request.getContextPath()%>/assets/images/avatar-4.jpg"
-						class="img-radius" alt="User-Profile-Image"> <span><%=usuarioLogado.getLogin()%></span>
-						<i class="ti-angle-down"></i>
+					class="waves-effect waves-light">
+					<c:if test="${usuarioLogado.foto != null && usuarioLogado.foto != ''}">
+						<img src="${usuarioLogado.foto}" class="img-radius" alt="User-Profile-Image">
+					</c:if>
+					<c:if test="${usuarioLogado.foto == null || usuarioLogado.foto == ''}">
+						<img src="<%=request.getContextPath()%>/assets/images/avatar-blank.jpg" class="img-radius" alt="User-Profile-Image">
+					</c:if>
+					<span><%=usuarioLogado.getLogin()%></span>
+					<i class="ti-angle-down"></i>
 				</a>
 					<ul class="show-notification profile-notification">
 						<li class="waves-effect waves-light"><a href="#!"> <i

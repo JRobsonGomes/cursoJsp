@@ -91,8 +91,10 @@ String titulo = (String) request.getAttribute("tituloForm");
 															</div>
 															<div class="form-group form-default d-md-flex align-items-md-end">
 																<c:if test="${usuario.foto != null && usuario.foto != ''}">
-																	<img id="fotoBase64" class="img-70 img-radius mr-md-4" alt="fotoUser"
-																		src="${usuario.foto}">
+																	<a href="<%= request.getContextPath() %>/UsuarioController?acao=downloadFoto&id=${usuario.id}">
+																		<img id="fotoBase64" class="img-70 img-radius mr-md-4"
+																		alt="fotoUser" src="${usuario.foto}">
+																	</a>
 																</c:if>
 																<c:if test="${usuario.foto == null || usuario.foto == ''}">
 																	<img id="fotoBase64" class="img-70 img-radius mr-md-4" alt="fotoUser"

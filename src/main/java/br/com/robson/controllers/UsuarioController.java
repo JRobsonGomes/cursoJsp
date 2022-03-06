@@ -70,6 +70,7 @@ public class UsuarioController extends ServletGenericUtil {
 				if (usuario.getId() != null && usuarioExistente != null
 						&& (usuario.getId() == usuarioExistente.getId())) {
 					dao.salvar(usuario);
+					usuario = dao.buscarUsuario(usuario.getId(), getUserLogado(request).getId());
 					msg = "Atualizado com sucesso!";
 
 				} else if (login) {
@@ -77,6 +78,7 @@ public class UsuarioController extends ServletGenericUtil {
 
 				} else {
 					dao.salvar(usuario);
+					usuario = dao.buscarUsuario(usuario.getId(), getUserLogado(request).getId());
 					msg = "Salvo com sucesso!";
 
 				}
@@ -132,6 +134,17 @@ public class UsuarioController extends ServletGenericUtil {
 
 				request.setAttribute("tituloForm", "Edição");
 				request.setAttribute("usuario", usuario);
+				
+			} else if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("downloadFoto")) {
+				Long id = Long.parseLong(request.getParameter("id"));
+
+				Usuario usuario = dao.buscarUsuario(id, super.getUserLogado(request).getId());
+				if (usuario.getFoto() != null) {
+					response.setHeader("Content-Disposition",
+							"attachment;filename=fotoUsuario." + usuario.getExtensaoFoto());
+					response.getOutputStream().write(Base64.decodeBase64(usuario.getFoto().split("\\,")[1]));
+				}
+				return;
 			}
 
 			try {

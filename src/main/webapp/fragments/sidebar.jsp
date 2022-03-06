@@ -17,11 +17,16 @@ Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLoga
 	<div class="pcoded-inner-navbar main-menu">
 		<div class="">
 			<div class="main-menu-header">
-				<img class="img-80 img-radius"
-					src="<%=request.getContextPath()%>/assets/images/avatar-4.jpg"
-					alt="User-Profile-Image">
+				<c:if test="${usuarioLogado.foto != null && usuarioLogado.foto != ''}">
+					<img class="img-80 img-radius" alt="User-Profile-Image"	src="${usuarioLogado.foto}">
+				</c:if>
+				<c:if test="${usuarioLogado.foto == null || usuarioLogado.foto == ''}">
+					<img class="img-80 img-radius"	src="<%=request.getContextPath()%>/assets/images/avatar-blank.jpg"	alt="User-Profile-Image">
+				</c:if>
 				<div class="user-details">
-					<span id="more-details"><%=usuarioLogado.getLogin()%><i class="fa fa-caret-down"></i></span>
+					<span id="more-details"><%=usuarioLogado.getLogin()%>
+						<i class="fa fa-caret-down"></i>
+					</span>
 				</div>
 			</div>
 

@@ -72,6 +72,9 @@ public class UsuarioDao {
 				obj.setUserAdmin(rs.getBoolean("user_admin"));
 				obj.setUsuarioId(rs.getLong("usuario_id"));
 				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
+				obj.setSexo(rs.getString("sexo"));
+				obj.setFoto(rs.getString("foto"));
+				obj.setExtensaoFoto(rs.getString("extensao_foto"));
 				
 				return obj;
 			}
@@ -146,7 +149,7 @@ public class UsuarioDao {
 					usuario.setId(id);
 				}
 				
-				updateFoto(usuario);
+				updateFoto(usuario);//Executa um update depois commitar a tranzacao e setar o id para buscar o usuario por id.
 				SingleConnectionBanco.closeResultSet(rs);
 			} else {
 				throw new DbException("Erro inesperado! Nenhuma linha afetada!");
@@ -319,7 +322,7 @@ public class UsuarioDao {
 	}
 	
 	public void updateFoto(Usuario usuario) {
-		if (usuario.getId() != null) {
+		if (usuario.getId() != null && usuario.getFoto() != null && !usuario.getFoto().isBlank()) {
 			PreparedStatement st = null;
 
 			try {
