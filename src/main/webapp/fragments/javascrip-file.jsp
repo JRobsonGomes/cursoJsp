@@ -202,5 +202,36 @@
 
 		$("#totalResultados").text('Resultados: ' + json.length);
 	}
+	
+	/* Troca a foto do usuario*/
+	  $('#fileFoto').change(function () {
+		var urlAction = document.getElementById('formUser').action;
+		let nome = urlAction.split(':')[2].split('/')[1];
+		
+	    var preview = $('#fotoBase64')[0]; // img
+	    var file = $('#fileFoto').prop('files')[0]; // input file
+	    var reader = new FileReader();
+	    var msg = $('#fileMsg')[0];
+
+	    const size = (file.size / 1000).toFixed(2);
+
+	    if (size > 100 || size < 50) {
+	      $('#fileFoto').val('');
+	      preview.src = nome + '../../assets/images/avatar-blank.jpg';
+	      msg.innerText = 'O arquivo deve ter um tamanho entre 50-100 kB';
+	    } else {
+	      reader.onloadend = function () {
+	        preview.src = reader.result; // Carrega foto na tela
+	      };
+
+	      if (file) {
+	        reader.readAsDataURL(file); // Preview da imagem
+	      } else {
+	        preview.src = '';
+	      }
+	      
+	      msg.innerText = '';
+	    }
+	  });
 </script>
 

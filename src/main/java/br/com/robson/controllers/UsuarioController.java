@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.robson.dao.UsuarioDao;
@@ -12,10 +16,13 @@ import br.com.robson.models.Usuario;
 import br.com.robson.utils.ServletGenericUtil;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
+@MultipartConfig
 @WebServlet("/UsuarioController")
 public class UsuarioController extends ServletGenericUtil {
 	private static final long serialVersionUID = 1L;
@@ -168,6 +175,16 @@ public class UsuarioController extends ServletGenericUtil {
 			usuario.setPerfil(PerfilUsuario.valueOf(perfil));
 			usuario.setUsuarioId(usuarioId);
 			usuario.setSexo(sexo);
+			
+			Part part = request.getPart("fileFoto");
+			if (ServletFileUpload.isMultipartContent(request) && part.getSize() > 0) {
+				String extensao = part.getContentType().split("\\/")[1];
+				byte[] foto = IOUtils.toByteArray(part.getInputStream());
+				String base64 = "data:image/" + extensao + ";base64," + Base64.encodeBase64String(foto);
+				
+				usuario.setFoto(base64);
+				usuario.setExtensaoFoto(extensao);
+			}
 
 		} catch (Exception e) {
 			throw new Exception("Erro ao setar usuario!");

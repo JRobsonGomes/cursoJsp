@@ -104,6 +104,8 @@ public class UsuarioDao {
 				obj.setSenha(rs.getString("senha"));
 				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
 				obj.setSexo(rs.getString("sexo"));
+				obj.setFoto(rs.getString("foto"));
+				obj.setExtensaoFoto(rs.getString("extensao_foto"));
 				
 				return obj;
 			}
@@ -143,6 +145,8 @@ public class UsuarioDao {
 					Long id = rs.getLong(1);
 					usuario.setId(id);
 				}
+				
+				updateFoto(usuario);
 				SingleConnectionBanco.closeResultSet(rs);
 			} else {
 				throw new DbException("Erro inesperado! Nenhuma linha afetada!");
@@ -311,6 +315,31 @@ public class UsuarioDao {
 		}
 		finally {
 			SingleConnectionBanco.closeStatement(st);
+		}
+	}
+	
+	public void updateFoto(Usuario usuario) {
+		if (usuario.getId() != null) {
+			PreparedStatement st = null;
+
+			try {
+				st = connection.prepareStatement("UPDATE tb_usuario SET foto = ?, extensao_foto = ? WHERE id = ?");
+				st.setString(1, usuario.getFoto());
+				st.setString(2, usuario.getExtensaoFoto());
+				st.setLong(3, usuario.getId());
+
+				int rows = st.executeUpdate();
+
+				connection.commit();
+
+				if (rows == 0) {
+					throw new DbException("Erro ao atualizar foto usuário!");
+				}
+			} catch (SQLException e) {
+				throw new DbException(e.getMessage());
+			} finally {
+				SingleConnectionBanco.closeStatement(st);
+			}
 		}
 	}
 }

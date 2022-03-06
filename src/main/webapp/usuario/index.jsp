@@ -53,6 +53,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 														<form id="formUser" class="form-material needs-validation"
 															method="post"
 															action="<%=request.getContextPath()%>/UsuarioController"
+															enctype="multipart/form-data"
 															novalidate>
 															<div class="form-group form-static-label d-flex">
 																<div class="col-sm-3 p-l-0">
@@ -86,6 +87,22 @@ String titulo = (String) request.getAttribute("tituloForm");
 																	<label class="float-label" style="color: #455a64">
 																		Perfil
 																	</label>
+																</div>
+															</div>
+															<div class="form-group form-default d-md-flex align-items-md-end">
+																<c:if test="${usuario.foto != null && usuario.foto != ''}">
+																	<img id="fotoBase64" class="img-70 img-radius mr-md-4" alt="fotoUser"
+																		src="${usuario.foto}">
+																</c:if>
+																<c:if test="${usuario.foto == null || usuario.foto == ''}">
+																	<img id="fotoBase64" class="img-70 img-radius mr-md-4" alt="fotoUser"
+																		src="<%=request.getContextPath()%>/assets/images/avatar-blank.jpg">
+																</c:if>
+																<div>
+																	<input type="file" name="fileFoto" id="fileFoto"
+																		class="form-control-file m-t-20" value=""
+																		accept="image/*">
+																	<span class="text-danger" id="fileMsg"></span>
 																</div>
 															</div>
 															<div class="form-group form-default">

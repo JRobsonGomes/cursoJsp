@@ -17,6 +17,8 @@ public class Usuario implements Serializable {
 	private boolean userAdmin;
 	private PerfilUsuario perfil;
 	private String sexo;
+	private String foto;
+	private String extensaoFoto;
 	
 	public Usuario() {
 	}
@@ -105,6 +107,22 @@ public class Usuario implements Serializable {
 
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+	public String getExtensaoFoto() {
+		return extensaoFoto;
+	}
+
+	public void setExtensaoFoto(String extensaoFoto) {
+		this.extensaoFoto = extensaoFoto;
 	}
 
 	@Override

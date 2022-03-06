@@ -54,5 +54,8 @@ ALTER TABLE tb_usuario ADD COLUMN perfil character varying(25) NOT NULL DEFAULT 
 --Inserindo coluna perfil
 ALTER TABLE tb_usuario ADD COLUMN sexo character varying(20);
 
+--Inserindo coluna foto e extensao_foto
+ALTER TABLE tb_usuario ADD COLUMN foto text;
+ALTER TABLE tb_usuario ADD COLUMN extensao_foto CHARACTER VARYING(5);
 
 
