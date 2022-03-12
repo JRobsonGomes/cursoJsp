@@ -19,6 +19,7 @@ public class Usuario implements Serializable {
 	private String sexo;
 	private String foto;
 	private String extensaoFoto;
+	private Endereco endereco;
 	
 	public Usuario() {
 	}
@@ -123,6 +124,14 @@ public class Usuario implements Serializable {
 
 	public void setExtensaoFoto(String extensaoFoto) {
 		this.extensaoFoto = extensaoFoto;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	@Override

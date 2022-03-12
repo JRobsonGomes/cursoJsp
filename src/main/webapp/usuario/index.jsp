@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 String titulo = (String) request.getAttribute("tituloForm");
@@ -44,7 +45,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 									<!-- Page-body start -->
 									<div class="page-body">
 										<div class="row justify-content-center">
-											<div class="col-sm-12 col-md-4">
+											<div class="col-sm-12">
 												<div class="card">
 													<div class="card-header">
 														<h5><%=titulo = titulo != null ? titulo : "Cadastro"%> de usuário</h5>
@@ -55,41 +56,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 															action="<%=request.getContextPath()%>/UsuarioController"
 															enctype="multipart/form-data"
 															novalidate>
-															<div class="form-group form-static-label d-flex">
-																<div class="col-sm-3 p-l-0">
-																	<input type="text" name="id" id="id"
-																		class="form-control" value="${usuario.id}" required
-																		readonly="readonly"> <span class="form-bar"></span>
-																	<label class="float-label">Id</label>
-																</div>
-																<div class="col-sm-9 px-0">
-																	<select name="perfil" class="form-control" required>
-																		<option value="" disabled="disabled" selected="selected">
-																			Selecione o Perfil
-																		</option>
-																		<option value="<%= PerfilUsuario.ADMIN %>"
-																			${usuario.perfil == 'ADMIN' ? 'selected="selected"' : ''}>
-																			Admin
-																		</option>
-																		<option value="<%=PerfilUsuario.AUXILIAR%>"
-																			${usuario.perfil == 'AUXILIAR' ? 'selected="selected"' : ''}>
-																			Auxiliar
-																		</option>
-																		<option value="<%=PerfilUsuario.GERENTE%>"
-																			${usuario.perfil == 'GERENTE' ? 'selected="selected"' : ''}>
-																			Gerente
-																		</option>
-																		<option value="<%=PerfilUsuario.SECRETARIA%>"
-																			${usuario.perfil == 'SECRETARIA' ? 'selected="selected"' : ''}>
-																			Secretaria
-																		</option>
-																	</select>
-																	<label class="float-label" style="color: #455a64">
-																		Perfil
-																	</label>
-																</div>
-															</div>
-															<div class="form-group form-default d-md-flex align-items-md-end">
+															<div class="form-group form-default d-md-flex mb-5">
 																<c:if test="${usuario.foto != null && usuario.foto != ''}">
 																	<a href="<%= request.getContextPath() %>/UsuarioController?acao=downloadFoto&id=${usuario.id}">
 																		<img id="fotoBase64" class="img-70 img-radius mr-md-4"
@@ -100,50 +67,140 @@ String titulo = (String) request.getAttribute("tituloForm");
 																	<img id="fotoBase64" class="img-70 img-radius mr-md-4" alt="fotoUser"
 																		src="<%=request.getContextPath()%>/assets/images/avatar-blank.jpg">
 																</c:if>
-																<div>
+																<div class="align-items-md-center">
 																	<input type="file" name="fileFoto" id="fileFoto"
 																		class="form-control-file m-t-20" value=""
 																		accept="image/*">
 																	<span class="text-danger" id="fileMsg"></span>
 																</div>
 															</div>
-															<div class="form-group form-default">
-																<input type="text" name="nome" id="nome"
-																	class="form-control" value="${usuario.nome}" required>
-																<span class="form-bar"></span> <label
-																	class="float-label">Nome</label>
-															</div>
-															<div class="form-group form-default">
-																<input type="email" name="email" id="email"
-																	class="form-control" value="${usuario.email}" required>
-																<span class="form-bar"></span> <label
-																	class="float-label">Email (exa@gmail.com)</label>
-															</div>
-															<div class="form-group form-default">
-																<input type="text" name="login" id="login"
-																	class="form-control" value="${usuario.login}" required>
-																<span class="form-bar"></span> <label
-																	class="float-label">Login</label>
-															</div>
-															<div class="form-group form-default">
-																<input type="password" name="senha" id="senha"
-																	class="form-control" value="${usuario.senha}" required
-																	maxlength="8"> <span class="form-bar"></span> <label
-																	class="float-label">Senha</label>
-															</div>
-															<div class="form-group d-flex">
-																<div class="p-r-10">
-																	<input type="radio" name="sexo" value="MASCULINO" ${usuario.sexo == 'MASCULINO' ? 'checked="checked"' : ''}
-																		class="form-radio" value="${usuario.sexo}" required>
-																		<label class="static-label">Masculino</label>
+															<div class="d-md-flex">
+																<div class="col-sm-12 col-md-6 px-0 pr-md-3">
+																	<div class="d-md-flex">
+																		<div class="form-group form-static-label col-md-1 px-0 pl-md-0">
+																			<input type="text" name="id" id="id"
+																				class="form-control" value="${usuario.id}" required
+																				readonly="readonly"> <span class="form-bar"></span>
+																			<label class="float-label">Id</label>
+																		</div>
+																		<div class="form-group form-static-label col-md-5 px-0 px-md-3">
+																			<select name="perfil" class="form-control" required>
+																				<option value="" disabled="disabled" selected="selected">
+																					Selecione o Perfil
+																				</option>
+																				<option value="<%= PerfilUsuario.ADMIN %>"
+																					${usuario.perfil == 'ADMIN' ? 'selected="selected"' : ''}>
+																					Admin
+																				</option>
+																				<option value="<%=PerfilUsuario.AUXILIAR%>"
+																					${usuario.perfil == 'AUXILIAR' ? 'selected="selected"' : ''}>
+																					Auxiliar
+																				</option>
+																				<option value="<%=PerfilUsuario.GERENTE%>"
+																					${usuario.perfil == 'GERENTE' ? 'selected="selected"' : ''}>
+																					Gerente
+																				</option>
+																				<option value="<%=PerfilUsuario.SECRETARIA%>"
+																					${usuario.perfil == 'SECRETARIA' ? 'selected="selected"' : ''}>
+																					Secretaria
+																				</option>
+																			</select>
+																			<label class="float-label" style="color: #455a64">
+																				Perfil
+																			</label>
+																		</div>
+																		<div class="form-group col-md-6 px-0 d-flex align-items-end justify-content-around"
+																			style="border-bottom: 1px solid #ccc;">
+																			<div class="pr-2 d-flex align-items-baseline">
+																				<input type="radio" name="sexo" value="MASCULINO"
+																					${usuario.sexo == 'MASCULINO' ? 'checked="checked"' : ''}
+																					class="form-radio mr-1" value="${usuario.sexo}" required>
+																				<label class="static-label">Masculino</label>
+																			</div>
+																			<div class="pl-2 d-flex align-items-baseline">
+																				<input type="radio" name="sexo" value="FEMININO"
+																					${usuario.sexo == 'FEMININO' ? 'checked="checked"' : ''}
+																					class="form-radio mr-1" value="${usuario.sexo}" required>
+																				<label class="static-label">Feminino</label>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="form-group form-default">
+																		<input type="text" name="nome" id="nome"
+																			class="form-control" value="${usuario.nome}" maxlength="60" required>
+																		<span class="form-bar"></span> <label
+																			class="float-label">Nome</label>
+																	</div>
+																	<div class="form-group form-default">
+																		<input type="email" name="email" id="email"
+																			class="form-control" value="${usuario.email}" maxlength="60" required>
+																		<span class="form-bar"></span> <label
+																			class="float-label">Email (exa@gmail.com)</label>
+																	</div>
+																	<div class="form-group form-default">
+																		<input type="text" name="login" id="login"
+																			class="form-control" value="${usuario.login}" maxlength="40" required>
+																		<span class="form-bar"></span> <label
+																			class="float-label">Login</label>
+																	</div>
+																	<div class="form-group form-default">
+																		<input type="password" name="senha" id="senha"
+																			class="form-control" value="${usuario.senha}" maxlength="10" required
+																			maxlength="8"> <span class="form-bar"></span> <label
+																			class="float-label">Senha</label>
+																	</div>
 																</div>
-																<div class="p-l-10">
-																	<input type="radio" name="sexo" value="FEMININO" ${usuario.sexo == 'FEMININO' ? 'checked="checked"' : ''}
-																		class="form-radio" value="${usuario.sexo}" required>
-																		<label class="static-label">Feminino</label>
+																<div class="col-sm-12 col-md-6 px-0 pl-md-3">
+																	<div class="form-group form-default">
+																		<input type="text" name="cep" id="cep"
+																			class="form-control"
+																			value="<fmt:formatNumber pattern="00000000" value="${usuario.endereco.cep}"/>"
+																			maxlength="9"
+																			required>
+																			<span class="form-bar"></span>
+																			<label class="float-label">Cep</label>
+																	</div>
+																	<div class="form-group form-default">
+																		<input type="text" name="logradouro" id="logradouro"
+																			class="form-control" value="${usuario.endereco.logradouro}" maxlength="60" required>
+																		<span class="form-bar"></span>
+																		<label class="float-label">Logradouro (Rua)</label>
+																	</div>
+																	<div class="form-group form-default">
+																		<input type="text" name="bairro" id="bairro"
+																			class="form-control" value="${usuario.endereco.bairro}" maxlength="45" required>
+																		<span class="form-bar"></span>
+																		<label class="float-label">Bairro</label>
+																	</div>
+																	<div class="form-group form-default">
+																		<input type="text" name="cidade" id="cidade"
+																			class="form-control" value="${usuario.endereco.cidade}" maxlength="45" required>
+																		<span class="form-bar"></span>
+																		<label class="float-label">Cidade</label>
+																	</div>
+																	<div class="d-md-flex justify-content-between">
+																		<div class="form-group form-default">
+																			<input type="text" name="uf" id="uf"
+																				class="form-control" value="${usuario.endereco.uf}" maxlength="2" required>
+																			<span class="form-bar"></span>
+																			<label class="float-label">Estado</label>
+																		</div>
+																		<div class="form-group form-default mx-md-3">
+																			<input type="text" name="numero" id="numero"
+																				class="form-control" value="${usuario.endereco.numero}" maxlength="5" required>
+																			<span class="form-bar"></span>
+																			<label class="float-label">Número</label>
+																		</div>
+																		<div class="form-group form-default">
+																			<input type="text" name="complemento" id="complemento"
+																				class="form-control" value="${usuario.endereco.complemento}">
+																			<span class="form-bar"></span>
+																			<label class="float-label">Complemento</label>
+																		</div>
+																	</div>
 																</div>
 															</div>
-															<div class="form-group form-default m-t-50">
+															<div class="form-group form-default m-t-20">
 																<button type="button"
 																	class="btn waves-effect waves-light btn-primary"
 																	id="btnNovo">Novo</button>
@@ -159,7 +216,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 											</div>
 
 											<!-- Listagem -->
-											<div class="col-sm-12 col-md-8">
+											<div class="col-sm-12">
 												<div class="card">
 													<div class="card-header">
 														<h5>Listagem usuários</h5>

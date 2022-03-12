@@ -58,4 +58,28 @@ ALTER TABLE tb_usuario ADD COLUMN sexo character varying(20);
 ALTER TABLE tb_usuario ADD COLUMN foto text;
 ALTER TABLE tb_usuario ADD COLUMN extensao_foto CHARACTER VARYING(5);
 
+--Criar sequencia tb_endereco
+CREATE SEQUENCE tb_endereco_id_seq;
 
+ --Criar tabela endereco
+CREATE TABLE tb_endereco(
+	id BIGINT NOT NULL DEFAULT nextval('tb_endereco_id_seq'::REGCLASS),
+	logradouro VARCHAR(60) NOT NULL,
+	bairro VARCHAR(45) NOT NULL,
+	cidade VARCHAR(45) NOT NULL,
+    uf VARCHAR(2) NOT NULL,
+	cep NUMERIC(8) NOT NULL,
+	numero NUMERIC(5) NOT NULL,
+	complemento VARCHAR(25),
+	usuario_id BIGINT NOT NULL,
+	PRIMARY KEY (id),
+	CONSTRAINT usuario_fk
+      FOREIGN KEY(usuario_id) 
+	  REFERENCES tb_usuario(id)
+	  ON DELETE CASCADE
+)
+
+--Dá permissão ao usuario na tb_endereco
+GRANT ALL ON SEQUENCE public.tb_endereco_id_seq TO robson;
+
+GRANT ALL ON TABLE public.tb_endereco TO robson;

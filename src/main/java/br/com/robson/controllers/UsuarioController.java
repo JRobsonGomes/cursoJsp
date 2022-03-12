@@ -10,8 +10,10 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.robson.dao.EnderecoDao;
 import br.com.robson.dao.UsuarioDao;
 import br.com.robson.enums.PerfilUsuario;
+import br.com.robson.models.Endereco;
 import br.com.robson.models.Usuario;
 import br.com.robson.utils.ServletGenericUtil;
 import jakarta.servlet.RequestDispatcher;
@@ -28,7 +30,9 @@ public class UsuarioController extends ServletGenericUtil {
 	private static final long serialVersionUID = 1L;
 
 	private Usuario usuario;
+	private Endereco endereco;
 	private UsuarioDao dao = new UsuarioDao();
+	private EnderecoDao enderecoDao = new EnderecoDao();
 
 	public UsuarioController() {
 		super();
@@ -57,6 +61,7 @@ public class UsuarioController extends ServletGenericUtil {
 		try {
 			var msg = "";
 			usuario = new Usuario();
+			endereco = new Endereco();
 
 			setUsuario(request);
 			boolean login = dao.validarLogin(usuario);
@@ -70,7 +75,10 @@ public class UsuarioController extends ServletGenericUtil {
 				if (usuario.getId() != null && usuarioExistente != null
 						&& (usuario.getId() == usuarioExistente.getId())) {
 					dao.salvar(usuario);
+					endereco = enderecoDao.salvar(usuario.getEndereco(), usuario.getId());
+					
 					usuario = dao.buscarUsuario(usuario.getId(), getUserLogado(request).getId());
+					usuario.setEndereco(endereco);
 					msg = "Atualizado com sucesso!";
 
 				} else if (login) {
@@ -78,7 +86,10 @@ public class UsuarioController extends ServletGenericUtil {
 
 				} else {
 					dao.salvar(usuario);
+					endereco = enderecoDao.salvar(usuario.getEndereco(), usuario.getId());
+					
 					usuario = dao.buscarUsuario(usuario.getId(), getUserLogado(request).getId());
+					usuario.setEndereco(endereco);
 					msg = "Salvo com sucesso!";
 
 				}
@@ -131,6 +142,7 @@ public class UsuarioController extends ServletGenericUtil {
 				Long id = Long.parseLong(request.getParameter("id"));
 
 				Usuario usuario = dao.buscarUsuario(id, super.getUserLogado(request).getId());
+				usuario.setEndereco(enderecoDao.buscarEndereco(usuario.getId()));
 
 				request.setAttribute("tituloForm", "Edição");
 				request.setAttribute("usuario", usuario);
@@ -178,6 +190,13 @@ public class UsuarioController extends ServletGenericUtil {
 			String senha = request.getParameter("senha");
 			String perfil = request.getParameter("perfil");
 			String sexo = request.getParameter("sexo");
+			String cep = request.getParameter("cep").replaceAll("[^0-9]", "");
+			String logradouro = request.getParameter("logradouro");
+			String bairro = request.getParameter("bairro");
+			String uf = request.getParameter("uf");
+			String cidade = request.getParameter("cidade");
+			String numero = request.getParameter("numero");
+			String complemento = request.getParameter("complemento");
 			Long usuarioId = super.getUserLogado(request).getId();
 
 			usuario.setId(id != null && !id.isBlank() ? Long.parseLong(id) : null);
@@ -188,6 +207,15 @@ public class UsuarioController extends ServletGenericUtil {
 			usuario.setPerfil(PerfilUsuario.valueOf(perfil));
 			usuario.setUsuarioId(usuarioId);
 			usuario.setSexo(sexo);
+			
+			endereco.setCep(Integer.parseInt(cep));
+			endereco.setLogradouro(logradouro);
+			endereco.setBairro(bairro);
+			endereco.setCidade(cidade);
+			endereco.setUf(uf);
+			endereco.setNumero(Integer.parseInt(numero));
+			endereco.setComplemento(complemento);
+			usuario.setEndereco(endereco);
 			
 			Part part = request.getPart("fileFoto");
 			if (ServletFileUpload.isMultipartContent(request) && part.getSize() > 0) {
@@ -200,6 +228,7 @@ public class UsuarioController extends ServletGenericUtil {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new Exception("Erro ao setar usuario!");
 		}
 	}
