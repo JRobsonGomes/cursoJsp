@@ -276,5 +276,11 @@
 
 			});
 			$('#cep').mask('00000-000');
+			
+			//popover bootstrap
+			$('[data-toggle="popover"]').popover();
+			$('.popover-dismiss').popover({
+				trigger: 'focus'
+			})
 		});
 	</script>

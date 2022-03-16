@@ -122,7 +122,20 @@ public class Endereco implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Endereco [id=" + id + ", logradouro=" + logradouro + ", bairro=" + bairro + ", cidade=" + cidade
-				+ ", uf=" + uf + ", cep=" + cep + ", numero=" + numero + ", complemento=" + complemento + "]";
+		StringBuilder str = new StringBuilder();
+		str.append(logradouro);
+		str.append(", ");
+		str.append(numero);
+		if (complemento != null && !complemento.isBlank()) str.append(", ");
+		if (complemento != null && !complemento.isBlank()) str.append(complemento);
+		str.append(" - ");
+		str.append(bairro);
+		str.append(", ");
+		str.append(cidade);
+		str.append(" - ");
+		str.append(uf);
+		str.append(", CEP: ");
+		str.append(String.format("%08d", cep));
+		return str.toString();
 	}
 }

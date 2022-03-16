@@ -241,6 +241,7 @@ public class UsuarioDao {
 	public List<Usuario> buscarTodosPaginado(Integer offset, Long usuarioId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
+		EnderecoDao enderecoDao = new EnderecoDao();
 		
 		try {
 			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE usuario_id = ? AND user_admin IS FALSE ORDER BY id OFFSET ? LIMIT 8");
@@ -251,11 +252,14 @@ public class UsuarioDao {
 			List<Usuario> list = new ArrayList<>();
 			while (rs.next()) {
 				Usuario obj = new Usuario();
-				obj.setId(rs.getLong("id"));
+				long id = rs.getLong("id");
+				
+				obj.setId(id);
 				obj.setNome(rs.getString("nome"));
 				obj.setEmail(rs.getString("email"));
 				obj.setLogin(rs.getString("login"));
 				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
+				obj.setEndereco(enderecoDao.buscarEndereco(id));
 				
 				list.add(obj);
 			}

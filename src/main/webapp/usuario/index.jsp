@@ -240,6 +240,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 																		<th>Email</th>
 																		<th>Login</th>
 																		<th>Perfil</th>
+																		<th>Endereço</th>
 																		<th>Ação</th>
 																	</tr>
 																</thead>
@@ -252,6 +253,17 @@ String titulo = (String) request.getAttribute("tituloForm");
 																			<td><c:out value="${usu.email}"></c:out></td>
 																			<td><c:out value="${usu.login}"></c:out></td>
 																			<td><c:out value="${usu.perfil}"></c:out></td>
+																			<td>
+																				<c:if test="${usu.endereco != null}">
+																					<button type="button"
+																						class="btn btn-secondary btn-sm"
+																						data-container="body" data-toggle="popover"
+																						data-placement="left" data-trigger="focus"
+																						data-content="${usu.endereco}">
+																						<i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+																					</button>
+																				</c:if>
+																			</td>
 																			<td><a href="?acao=editar&id=${usu.id}"
 																				class="btn btn-sm btn-info">Editar</a> <a
 																				href="javascript: confirmar(${usu.id}, '${usu.nome}')"
