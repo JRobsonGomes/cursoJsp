@@ -64,6 +64,14 @@
 			}
 		}
 
+		/* Confirmar exclusão telefone*/
+		function confirmarExclusaoTelefone(id, usuarioId, nome) {
+			let resposta = confirm("Deseja realmente excluir: " + nome);
+			if (resposta) {
+				window.location.href = "?acao=deletar&id=" + id + "&usuarioId=" + usuarioId;
+			}
+		}
+
 		function popularModal(response) {
 			var json = JSON.parse(response);
 			$('#consultaUsuariosResult > tbody > tr').remove();
@@ -152,11 +160,14 @@
 			} */
 
 			//Outra opcao para limpar inputs com jquery	
-			/* $('#btnNovo').click(function() {
-				$('#formUser *').filter(':input').each(function() {
+			$('#btnNovoTel').click(function () {
+				$('#formTelefone *').filter(':input').each(function (i, obj) {
+					if ($(obj).attr('id') == 'usuarioId' || $(obj).attr('id') == 'nome') {
+						return;
+					}
 					this.value = '';
 				})
-			}); */
+			});
 
 			/* Limpar formulário */
 			$('#btnNovo').click(function () {

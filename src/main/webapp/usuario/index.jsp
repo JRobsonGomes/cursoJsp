@@ -203,11 +203,19 @@ String titulo = (String) request.getAttribute("tituloForm");
 															<div class="form-group form-default m-t-20">
 																<button type="button"
 																	class="btn waves-effect waves-light btn-primary"
-																	id="btnNovo">Novo</button>
+																	id="btnNovo">Novo
+																</button>
 																<button class="btn waves-effect waves-light btn-success">Salvar</button>
 																<button type="button" class="btn btn-info btn-outline-info"
 																	data-toggle="modal" data-target="#pesquisaUsuario">
-																	Persquisar</button>
+																	Persquisar
+																</button>
+																<c:if test="${usuario != null}">
+																	<a href="<%= request.getContextPath() %>/TelefoneController?usuarioId=${usuario.id}"
+																		class="btn btn-secondary">
+																		Telefone
+																	</a>
+																</c:if>
 															</div>
 															<span class="text-success" id="msg">${msg}</span>
 														</form>
@@ -232,7 +240,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 													</div>
 													<div class="card-block table-border-style pb-2">
 														<div class="table-responsive">
-															<table class="table table-sm table-hover table-striped">
+															<table class="table table-hover table-striped">
 																<thead>
 																	<tr>
 																		<th>#</th>
@@ -264,7 +272,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 																					</button>
 																				</c:if>
 																			</td>
-																			<td><a href="?acao=editar&id=${usu.id}"
+																			<td><a href="<%= request.getContextPath() %>/UsuarioController?acao=editar&id=${usu.id}"
 																				class="btn btn-sm btn-info">Editar</a> <a
 																				href="javascript: confirmar(${usu.id}, '${usu.nome}')"
 																				class="btn btn-sm btn-danger">Excluir</a></td>

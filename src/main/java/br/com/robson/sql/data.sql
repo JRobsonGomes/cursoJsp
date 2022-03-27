@@ -83,3 +83,31 @@ CREATE TABLE tb_endereco(
 GRANT ALL ON SEQUENCE public.tb_endereco_id_seq TO robson;
 
 GRANT ALL ON TABLE public.tb_endereco TO robson;
+
+--Criar sequencia telefone
+CREATE SEQUENCE tb_telefone_id_seq;
+
+ --Criar tabela telefone
+CREATE TABLE tb_telefone(
+	id BIGINT NOT NULL DEFAULT nextval('tb_telefone_id_seq'::REGCLASS),
+	numero VARCHAR(20) NOT NULL,
+	usuario_id BIGINT NOT NULL,
+	usuario_cad_id BIGINT NOT NULL,
+	PRIMARY KEY (id),
+	CONSTRAINT usuario_fk
+      FOREIGN KEY(usuario_id) 
+	  REFERENCES tb_usuario(id)
+	  ON DELETE CASCADE,
+	CONSTRAINT usuario_cad_fk
+      FOREIGN KEY(usuario_cad_id) 
+	  REFERENCES tb_usuario(id)
+	  ON DELETE SET NULL
+)
+
+--Dá permissão ao usuario na tb_telefone
+GRANT ALL ON SEQUENCE public.tb_telefone_id_seq TO robson;
+
+GRANT ALL ON TABLE public.tb_telefone TO robson;
+
+
+

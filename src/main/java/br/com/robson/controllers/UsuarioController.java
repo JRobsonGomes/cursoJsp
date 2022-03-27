@@ -38,7 +38,7 @@ public class UsuarioController extends ServletGenericUtil {
 		super();
 	}
 
-	private void listarUsuarios(HttpServletRequest request, HttpServletResponse response, Integer offset)
+	protected void listarUsuarios(HttpServletRequest request, HttpServletResponse response, Integer offset)
 			throws ServletException, IOException {
 		try {
 
@@ -47,7 +47,7 @@ public class UsuarioController extends ServletGenericUtil {
 			
 			request.setAttribute("usuariosList", usuarios);
 			request.setAttribute("totalPaginas", totalPaginas);
-			request.getRequestDispatcher("usuario/").forward(request, response);
+			request.getRequestDispatcher("usuario/index.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
