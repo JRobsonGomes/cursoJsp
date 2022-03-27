@@ -109,12 +109,12 @@ public class TelefoneController extends ServletGenericUtil {
 		try {
 
 			String id = request.getParameter("id");
-			String numero = request.getParameter("numero");
+			String numero = request.getParameter("numeroTel").replaceAll("[^0-9]", "");
 			String usuarioId = request.getParameter("usuarioId");
 			Long usuarioCadId = super.getUserLogado(request).getId();
 
 			telefone.setId(id != null && !id.isBlank() ? Long.parseLong(id) : null);
-			telefone.setNumero(numero);
+			telefone.setNumero(Long.parseLong(numero));
 			telefone.setUsuarioId(Long.parseLong(usuarioId));
 			telefone.setUsuarioCadId(usuarioCadId);
 			

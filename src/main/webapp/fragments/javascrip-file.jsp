@@ -162,7 +162,8 @@
 			//Outra opcao para limpar inputs com jquery	
 			$('#btnNovoTel').click(function () {
 				$('#formTelefone *').filter(':input').each(function (i, obj) {
-					if ($(obj).attr('id') == 'usuarioId' || $(obj).attr('id') == 'nome') {
+					let att_id = $(obj).attr('id');
+					if (att_id == 'usuarioId' || att_id == 'nome') {
 						return;
 					}
 					this.value = '';
@@ -287,6 +288,12 @@
 
 			});
 			$('#cep').mask('00000-000');
+			
+			let tel = $('#numeroTel');
+			tel.mask("(99) 99999-9999").on("focusout", function () {
+				var len = this.value.replace(/\D/g, '').length;
+				$(this).mask(len > 10 ? "(99) 99999-9999" : "(99) 9999-9999");
+			});
 			
 			//popover bootstrap
 			$('[data-toggle="popover"]').popover();

@@ -90,7 +90,7 @@ CREATE SEQUENCE tb_telefone_id_seq;
  --Criar tabela telefone
 CREATE TABLE tb_telefone(
 	id BIGINT NOT NULL DEFAULT nextval('tb_telefone_id_seq'::REGCLASS),
-	numero VARCHAR(20) NOT NULL,
+	numero NUMERIC(11, 0) NOT NULL,
 	usuario_id BIGINT NOT NULL,
 	usuario_cad_id BIGINT NOT NULL,
 	PRIMARY KEY (id),

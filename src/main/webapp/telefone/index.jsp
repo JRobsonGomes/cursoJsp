@@ -1,11 +1,16 @@
+<%@ page import="br.com.robson.enums.PerfilUsuario"%>
+<%@ page import="br.com.robson.models.Telefone"%>
+<%@ page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
-String titulo = (String) request.getAttribute("tituloForm");
+	String titulo = (String) request.getAttribute("tituloForm");
+
+	@SuppressWarnings("unchecked")
+	List<Telefone> telefoneList = (List<Telefone>) request.getAttribute("telefoneList");
 %>
 
 <!DOCTYPE html>
@@ -13,7 +18,6 @@ String titulo = (String) request.getAttribute("tituloForm");
 
 <jsp:include page="../fragments/head.jsp"></jsp:include>
 
-<%@ page import="br.com.robson.enums.PerfilUsuario"%>
 
 <body>
 	<!-- Pre-loader start -->
@@ -71,7 +75,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 															
 															<input type="hidden" name="id" id="id" class="form-control" value="${telefone.id}" readonly="readonly">
 															<div class="form-group form-default">
-																<input type="text" name="numero" id="numero" class="form-control" value="${telefone.numero}" maxlength="15" required>
+																<input type="text" name="numeroTel" id="numeroTel" class="form-control" value="${telefone.numero}" maxlength="15" required>
 																<span class="form-bar"></span>
 																<label class="float-label">Número</label>
 															</div>
@@ -106,21 +110,26 @@ String titulo = (String) request.getAttribute("tituloForm");
 																	</tr>
 																</thead>
 																<tbody>
-																	<c:forEach items="${telefoneList}" var="tel">
+																	<% for (Telefone telefone : telefoneList) { %>
 																		<tr>
 																			<th scope="row">
-																				<c:out value="${tel.id}"></c:out>
+																				<%=telefone.getId()%>
 																			</th>
 																			<td>
-																				<c:out value="${tel.numero}"></c:out>
+																				<%=telefone.getNumero().toString().replaceAll("(\\d{2})(\\d+)(\\d{4})", "($1) $2-$3" )%>
 																			</td>
 																			<td>
-																				<a href="<%= request.getContextPath() %>/TelefoneController?acao=editar&id=${tel.id}&usuarioId=${tel.usuarioId}"
-																					class="btn btn-sm btn-info">Editar</a>
-																				<a href="javascript: confirmarExclusaoTelefone(${tel.id}, '${tel.usuarioId}', '${tel.numero}')" class="btn btn-sm btn-danger">Excluir</a>
+																				<a href="<%= request.getContextPath() %>/TelefoneController?acao=editar&id=<%=telefone.getId()%>&usuarioId=<%=telefone.getUsuarioId()%>"
+																					class="btn btn-sm btn-info">
+																					Editar
+																				</a>
+																				<a href="javascript: confirmarExclusaoTelefone(<%=telefone.getId()%>, '<%=telefone.getUsuarioId()%>', '<%=telefone.getNumero()%>')"
+																					class="btn btn-sm btn-danger">
+																					Excluir
+																				</a>
 																			</td>
 																		</tr>
-																	</c:forEach>
+																		<% } %>
 																</tbody>
 															</table>
 														</div>

@@ -33,7 +33,7 @@ public class TelefoneDao {
 			while (rs.next()) {
 				Telefone obj = new Telefone();
 				obj.setId(rs.getLong("id"));
-				obj.setNumero(rs.getString("numero"));
+				obj.setNumero(rs.getLong("numero"));
 				obj.setUsuarioId(rs.getLong("usuario_id"));
 				obj.setUsuarioCadId(rs.getLong("usuario_cad_id"));
 				
@@ -61,7 +61,7 @@ public class TelefoneDao {
 			if (rs.next()) {
 				Telefone obj = new Telefone();
 				obj.setId(rs.getLong("id"));
-				obj.setNumero(rs.getString("numero"));
+				obj.setNumero(rs.getLong("numero"));
 				obj.setUsuarioCadId(rs.getLong("usuario_cad_id"));
 				obj.setUsuarioId(rs.getLong("usuario_id"));
 				
@@ -86,7 +86,7 @@ public class TelefoneDao {
 		try {
 			st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-			st.setString(1, telefone.getNumero());
+			st.setLong(1, telefone.getNumero());
 			st.setLong(2, telefone.getUsuarioId());
 			st.setLong(3, telefone.getUsuarioCadId());
 			if (telefone.getId() != null) st.setLong(4, telefone.getId());

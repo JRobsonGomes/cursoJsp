@@ -7,7 +7,7 @@ public class Telefone implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	private String numero;
+	private Long numero;
 	private Long usuarioId;
 	private Long usuarioCadId;
 	
@@ -15,7 +15,7 @@ public class Telefone implements Serializable {
 		
 	}
 	
-	public Telefone(Long id, String numero, Long usuarioId, Long usuarioCadId) {
+	public Telefone(Long id, Long numero, Long usuarioId, Long usuarioCadId) {
 		this.id = id;
 		this.numero = numero;
 		this.usuarioId = usuarioId;
@@ -30,11 +30,11 @@ public class Telefone implements Serializable {
 		this.id = id;
 	}
 	
-	public String getNumero() {
+	public Long getNumero() {
 		return numero;
 	}
 	
-	public void setNumero(String numero) {
+	public void setNumero(Long numero) {
 		this.numero = numero;
 	}
 	
