@@ -197,7 +197,7 @@ public class UsuarioController extends ServletGenericUtil {
 			String cidade = request.getParameter("cidade");
 			String numero = request.getParameter("numero");
 			String complemento = request.getParameter("complemento");
-			Long usuarioId = super.getUserLogado(request).getId();
+			Long usuarioCadId = super.getUserLogado(request).getId();
 
 			usuario.setId(id != null && !id.isBlank() ? Long.parseLong(id) : null);
 			usuario.setNome(nome);
@@ -205,7 +205,7 @@ public class UsuarioController extends ServletGenericUtil {
 			usuario.setLogin(login);
 			usuario.setSenha(senha);
 			usuario.setPerfil(PerfilUsuario.valueOf(perfil));
-			usuario.setUsuarioId(usuarioId);
+			usuario.setUsuarioCadId(usuarioCadId);
 			usuario.setSexo(sexo);
 			
 			endereco.setCep(Integer.parseInt(cep));

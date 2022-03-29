@@ -43,10 +43,12 @@ ALTER TABLE tb_usuario ADD COLUMN user_admin BOOLEAN NOT NULL DEFAULT FALSE;
 UPDATE tb_usuario SET user_admin=TRUE WHERE id = 1;
 
 --Inserindo coluna usuario_id para definir quem é dono dos registros
-ALTER TABLE tb_usuario ADD COLUMN usuario_id BIGINT NOT NULL DEFAULT 1;
+--ALTER TABLE tb_usuario ADD COLUMN usuario_id BIGINT NOT NULL DEFAULT 1;
+ALTER TABLE tb_usuario ADD COLUMN usuario_cad_id BIGINT NOT NULL DEFAULT 1;
 
---Adicionando constraint usuario_id
-ALTER TABLE tb_usuario ADD CONSTRAINT usuario_fk FOREIGN KEY (usuario_id) REFERENCES tb_usuario (id);
+--Adicionando constraint usuario_cad_id
+--ALTER TABLE tb_usuario ADD CONSTRAINT usuario_fk FOREIGN KEY (usuario_id) REFERENCES tb_usuario (id);
+ALTER TABLE tb_usuario ADD CONSTRAINT usuario_cad_fk FOREIGN KEY (usuario_cad_id) REFERENCES tb_usuario (id);
 
 --Inserindo coluna perfil
 ALTER TABLE tb_usuario ADD COLUMN perfil character varying(25) NOT NULL DEFAULT 'AUXILIAR';
@@ -108,6 +110,13 @@ CREATE TABLE tb_telefone(
 GRANT ALL ON SEQUENCE public.tb_telefone_id_seq TO robson;
 
 GRANT ALL ON TABLE public.tb_telefone TO robson;
+
+--Alterando o nome da coluna de usuario_id para usuario_cad_id na tabela tb_usuario e constraint
+ALTER TABLE tb_usuario RENAME COLUMN usuario_id TO usuario_cad_id;
+
+ALTER TABLE tb_usuario RENAME CONSTRAINT "usuario_fk" TO "usuario_cad_fk";
+
+
 
 
 

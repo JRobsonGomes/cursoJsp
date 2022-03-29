@@ -13,7 +13,7 @@ public class Usuario implements Serializable {
 	private String email;
 	private String login;
 	private String senha;
-	private Long usuarioId;
+	private Long usuarioCadId;
 	private boolean userAdmin;
 	private PerfilUsuario perfil;
 	private String sexo;
@@ -29,13 +29,13 @@ public class Usuario implements Serializable {
 		this.senha = senha;
 	}
 	
-	public Usuario(Long id, String nome, String email, String login, String senha, Long usuarioId) {
+	public Usuario(Long id, String nome, String email, String login, String senha, Long usuarioCadId) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.login = login;
 		this.senha = senha;
-		this.usuarioId = usuarioId;
+		this.usuarioCadId = usuarioCadId;
 	}
 
 	public Long getId() {
@@ -78,12 +78,12 @@ public class Usuario implements Serializable {
 		this.senha = senha;
 	}
 
-	public Long getUsuarioId() {
-		return usuarioId;
+	public Long getUsuarioCadId() {
+		return usuarioCadId;
 	}
 
-	public void setUsuarioId(Long usuarioId) {
-		this.usuarioId = usuarioId;
+	public void setUsuarioCadId(Long usuarioId) {
+		this.usuarioCadId = usuarioId;
 	}
 
 	public boolean isUserAdmin() {
@@ -154,6 +154,6 @@ public class Usuario implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", login=" + login + ", senha=" + senha
-				+ ", usuarioId=" + usuarioId + "]";
+				+ ", usuarioId=" + usuarioCadId + "]";
 	}
 }

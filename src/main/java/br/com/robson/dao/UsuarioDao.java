@@ -21,14 +21,14 @@ public class UsuarioDao {
 		connection = SingleConnectionBanco.getConnection();
 	}
 
-	public List<Usuario> buscarUsuarioConsulta(String nome, Long usuarioId) {
+	public List<Usuario> buscarUsuarioConsulta(String nome, Long usuarioCadId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(nome) LIKE UPPER(?) AND user_admin IS FALSE AND usuario_id = ? ORDER BY id");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE UPPER(nome) LIKE UPPER(?) AND user_admin IS FALSE AND usuario_cad_id = ? ORDER BY id");
 			st.setString(1, "%" + nome + "%");
-			st.setLong(2, usuarioId);
+			st.setLong(2, usuarioCadId);
 
 			rs = st.executeQuery();
 
@@ -70,7 +70,7 @@ public class UsuarioDao {
 				obj.setLogin(rs.getString("login"));
 				obj.setSenha(rs.getString("senha"));
 				obj.setUserAdmin(rs.getBoolean("user_admin"));
-				obj.setUsuarioId(rs.getLong("usuario_id"));
+				obj.setUsuarioCadId(rs.getLong("usuario_cad_id"));
 				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
 				obj.setSexo(rs.getString("sexo"));
 				obj.setFoto(rs.getString("foto"));
@@ -88,14 +88,14 @@ public class UsuarioDao {
 		}
 	}
 	
-	public Usuario buscarUsuario(Long id, Long usuarioId) {
+	public Usuario buscarUsuario(Long id, Long usuarioCadId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE id = ? AND user_admin IS FALSE AND usuario_id = ?");
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE id = ? AND user_admin IS FALSE AND usuario_cad_id = ?");
 			st.setLong(1, id);
-			st.setLong(2, usuarioId);
+			st.setLong(2, usuarioCadId);
 			rs = st.executeQuery();
 			
 			if (rs.next()) {
@@ -124,8 +124,8 @@ public class UsuarioDao {
 
 	public void salvar(Usuario usuario) throws Exception {
 		PreparedStatement st = null;
-		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_id, perfil, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)"
-				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_id=?, perfil=?, sexo=? WHERE id = ?";
+		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_cad_id, perfil, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)"
+				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_cad_id=?, perfil=?, sexo=? WHERE id = ?";
 
 		try {
 			st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -134,7 +134,7 @@ public class UsuarioDao {
 			st.setString(2, usuario.getSenha());
 			st.setString(3, usuario.getNome());
 			st.setString(4, usuario.getEmail());
-			st.setLong(5, usuario.getUsuarioId());
+			st.setLong(5, usuario.getUsuarioCadId());
 			st.setString(6, usuario.getPerfil().name());
 			st.setString(7, usuario.getSexo());
 			if (usuario.getId() != null) st.setLong(8, usuario.getId());
@@ -238,14 +238,14 @@ public class UsuarioDao {
 		}
 	}
 	
-	public List<Usuario> buscarTodosPaginado(Integer offset, Long usuarioId) {
+	public List<Usuario> buscarTodosPaginado(Integer offset, Long usuarioCadId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		EnderecoDao enderecoDao = new EnderecoDao();
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE usuario_id = ? AND user_admin IS FALSE ORDER BY id OFFSET ? LIMIT 8");
-			st.setLong(1, usuarioId);
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE usuario_cad_id = ? AND user_admin IS FALSE ORDER BY id OFFSET ? LIMIT 8");
+			st.setLong(1, usuarioCadId);
 			st.setInt(2, offset * 8);//Multiplicar por 8 pois vem da view 0, 1, 2 ...
 			rs = st.executeQuery();
 			
@@ -273,13 +273,13 @@ public class UsuarioDao {
 		}
 	}
 	
-	public int totalPaginas(Long usuarioId) {
+	public int totalPaginas(Long usuarioCadId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT COUNT(1) AS total FROM tb_usuario WHERE user_admin IS FALSE AND usuario_id = ?");
-			st.setLong(1, usuarioId);
+			st = connection.prepareStatement("SELECT COUNT(1) AS total FROM tb_usuario WHERE user_admin IS FALSE AND usuario_cad_id = ?");
+			st.setLong(1, usuarioCadId);
 			rs = st.executeQuery();
 			rs.next();
 			
