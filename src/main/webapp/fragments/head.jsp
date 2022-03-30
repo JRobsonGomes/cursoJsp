@@ -28,6 +28,8 @@
 <!-- themify icon -->
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/assets/icon/themify-icons/themify-icons.css">
+<!-- ico font -->
+<link rel="stylesheet" type="text/css" href="assets/icon/icofont/css/icofont.css">
 <!-- Font Awesome -->
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/assets/icon/font-awesome/css/font-awesome.min.css">

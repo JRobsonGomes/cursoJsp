@@ -49,6 +49,12 @@
 									<!-- Page-body start -->
 									<div class="page-body">
 										<div class="row justify-content-center">
+											<div class="col-sm-12 mb-3">
+												<a href="<%=request.getContextPath()%>/UsuarioController?acao=editar&id=${usuario.id}"
+													class="btn waves-effect waves-light btn-inverse">
+													<i class="icofont icofont-arrow-left"></i>Voltar
+												</a>
+											</div>
 											<div class="col-sm-12 col-md-6">
 												<div class="card">
 													<div class="card-header">

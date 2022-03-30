@@ -208,7 +208,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 																<button class="btn waves-effect waves-light btn-success">Salvar</button>
 																<button type="button" class="btn btn-info btn-outline-info"
 																	data-toggle="modal" data-target="#pesquisaUsuario">
-																	Persquisar
+																	Pesquisar
 																</button>
 																<c:if test="${usuario != null}">
 																	<a href="<%= request.getContextPath() %>/TelefoneController?usuarioId=${usuario.id}"
