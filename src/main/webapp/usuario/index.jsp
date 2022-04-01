@@ -3,6 +3,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="br.com.robson.enums.PerfilUsuario"%>
 
 <%
 String titulo = (String) request.getAttribute("tituloForm");
@@ -13,7 +15,6 @@ String titulo = (String) request.getAttribute("tituloForm");
 
 <jsp:include page="../fragments/head.jsp"></jsp:include>
 
-<%@ page import="br.com.robson.enums.PerfilUsuario"%>
 
 <body>
 	<!-- Pre-loader start -->
@@ -249,14 +250,14 @@ String titulo = (String) request.getAttribute("tituloForm");
 																		<th>Login</th>
 																		<th>Perfil</th>
 																		<th>Endereço</th>
+																		<th>Telefone</th>
 																		<th>Ação</th>
 																	</tr>
 																</thead>
 																<tbody>
 																	<c:forEach items="${usuariosList}" var="usu">
 																		<tr>
-																			<th scope="row"><c:out value="${usu.id}"></c:out>
-																			</th>
+																			<th scope="row"><c:out value="${usu.id}"></c:out></th>
 																			<td><c:out value="${usu.nome}"></c:out></td>
 																			<td><c:out value="${usu.email}"></c:out></td>
 																			<td><c:out value="${usu.login}"></c:out></td>
@@ -269,6 +270,17 @@ String titulo = (String) request.getAttribute("tituloForm");
 																						data-placement="left" data-trigger="focus"
 																						data-content="${usu.endereco}">
 																						<i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+																					</button>
+																				</c:if>
+																			</td>
+																			<td>
+																				<c:if test="${fn:length(usu.telefones) != 0}">
+																					<button type="button"
+																						class="btn btn-secondary btn-sm"
+																						data-container="body" data-toggle="popover"
+																						data-placement="left" data-trigger="focus"
+																						data-content="${usu.numTelefonesToString}">
+																						<i class="fa fa-phone fa-lg" aria-hidden="true"></i>
 																					</button>
 																				</c:if>
 																			</td>

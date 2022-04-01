@@ -5,12 +5,10 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="br.com.robson.utils.Util"%>
 
 <%
 	String titulo = (String) request.getAttribute("tituloForm");
-
-	@SuppressWarnings("unchecked")
-	List<Telefone> telefoneList = (List<Telefone>) request.getAttribute("telefoneList");
 %>
 
 <!DOCTYPE html>
@@ -116,26 +114,26 @@
 																	</tr>
 																</thead>
 																<tbody>
-																	<% for (Telefone telefone : telefoneList) { %>
+																	<c:forEach items="${telefoneList}" var="telefone">
 																		<tr>
 																			<th scope="row">
-																				<%=telefone.getId()%>
+																				<c:out value="${telefone.id}"></c:out>
 																			</th>
 																			<td>
-																				<%=telefone.getNumero().toString().replaceAll("(\\d{2})(\\d+)(\\d{4})", "($1) $2-$3" )%>
+																				<c:out value="${Util.formatTelefone(telefone.numero)}"></c:out>
 																			</td>
 																			<td>
-																				<a href="<%= request.getContextPath() %>/TelefoneController?acao=editar&id=<%=telefone.getId()%>&usuarioId=<%=telefone.getUsuarioId()%>"
+																				<a href="<%= request.getContextPath() %>/TelefoneController?acao=editar&id=${telefone.id}&usuarioId=${telefone.usuarioId}"
 																					class="btn btn-sm btn-info">
 																					Editar
 																				</a>
-																				<a href="javascript: confirmarExclusaoTelefone(<%=telefone.getId()%>, '<%=telefone.getUsuarioId()%>', '<%=telefone.getNumero()%>')"
+																				<a href="javascript: confirmarExclusaoTelefone(${telefone.id}, '${telefone.usuarioId}', '${Util.formatTelefone(telefone.numero)}')"
 																					class="btn btn-sm btn-danger">
 																					Excluir
 																				</a>
 																			</td>
 																		</tr>
-																		<% } %>
+																	</c:forEach>
 																</tbody>
 															</table>
 														</div>

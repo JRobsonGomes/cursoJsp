@@ -3,6 +3,8 @@ package br.com.robson.models;
 import java.io.Serializable;
 import java.util.Objects;
 
+import br.com.robson.utils.Util;
+
 public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -135,7 +137,7 @@ public class Endereco implements Serializable {
 		str.append(" - ");
 		str.append(uf);
 		str.append(", CEP: ");
-		str.append(String.format("%08d", cep));
+		str.append(Util.formatCep(cep));
 		return str.toString();
 	}
 }

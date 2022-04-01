@@ -1,9 +1,12 @@
 package br.com.robson.models;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import br.com.robson.enums.PerfilUsuario;
+import br.com.robson.utils.Util;
 
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,6 +23,8 @@ public class Usuario implements Serializable {
 	private String foto;
 	private String extensaoFoto;
 	private Endereco endereco;
+	private List<Telefone> telefones;
+	private String numTelefonesToString;
 	
 	public Usuario() {
 	}
@@ -134,6 +139,20 @@ public class Usuario implements Serializable {
 		this.endereco = endereco;
 	}
 
+	public List<Telefone> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
+	}
+
+	public String getNumTelefonesToString() {
+		List<String> list = this.telefones.stream().map(t -> Util.formatTelefone(t.getNumero())).collect(Collectors.toList());
+		this.numTelefonesToString = list.toString().replaceAll("\\[|\\]", "");
+		return numTelefonesToString;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -154,6 +173,8 @@ public class Usuario implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", login=" + login + ", senha=" + senha
-				+ ", usuarioId=" + usuarioCadId + "]";
+				+ ", usuarioCadId=" + usuarioCadId + ", userAdmin=" + userAdmin + ", perfil=" + perfil + ", sexo="
+				+ sexo + ", foto=" + foto + ", extensaoFoto=" + extensaoFoto + ", endereco=" + endereco + ", telefones="
+				+ telefones.stream().map(t -> Util.formatTelefone(t.getNumero())).collect(Collectors.toList()) + "]";
 	}
 }

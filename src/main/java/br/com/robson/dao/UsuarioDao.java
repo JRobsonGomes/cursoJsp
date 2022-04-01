@@ -242,6 +242,7 @@ public class UsuarioDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		EnderecoDao enderecoDao = new EnderecoDao();
+		TelefoneDao telefoneDao = new TelefoneDao();
 		
 		try {
 			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE usuario_cad_id = ? AND user_admin IS FALSE ORDER BY id OFFSET ? LIMIT 8");
@@ -260,6 +261,7 @@ public class UsuarioDao {
 				obj.setLogin(rs.getString("login"));
 				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
 				obj.setEndereco(enderecoDao.buscarEndereco(id));
+				obj.setTelefones(telefoneDao.buscarTodosDoUsuario(id));
 				
 				list.add(obj);
 			}
