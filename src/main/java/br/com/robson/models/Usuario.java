@@ -1,6 +1,7 @@
 package br.com.robson.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class Usuario implements Serializable {
 	private String foto;
 	private String extensaoFoto;
 	private Endereco endereco;
-	private List<Telefone> telefones;
+	private List<Telefone> telefones = new ArrayList<Telefone>();
 	private String numTelefonesToString;
 	
 	public Usuario() {
