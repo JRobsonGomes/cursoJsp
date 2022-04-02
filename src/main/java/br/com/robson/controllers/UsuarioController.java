@@ -75,10 +75,9 @@ public class UsuarioController extends ServletGenericUtil {
 				if (usuario.getId() != null && usuarioExistente != null
 						&& (usuario.getId() == usuarioExistente.getId())) {
 					dao.salvar(usuario);
-					endereco = enderecoDao.salvar(usuario.getEndereco(), usuario.getId());
+					enderecoDao.salvar(usuario.getEndereco(), usuario.getId());
 					
 					usuario = dao.buscarUsuario(usuario.getId(), getUserLogado(request).getId());
-					usuario.setEndereco(endereco);
 					msg = "Atualizado com sucesso!";
 
 				} else if (login) {
@@ -86,10 +85,9 @@ public class UsuarioController extends ServletGenericUtil {
 
 				} else {
 					dao.salvar(usuario);
-					endereco = enderecoDao.salvar(usuario.getEndereco(), usuario.getId());
+					enderecoDao.salvar(usuario.getEndereco(), usuario.getId());
 					
 					usuario = dao.buscarUsuario(usuario.getId(), getUserLogado(request).getId());
-					usuario.setEndereco(endereco);
 					msg = "Salvo com sucesso!";
 
 				}
@@ -142,7 +140,6 @@ public class UsuarioController extends ServletGenericUtil {
 				Long id = Long.parseLong(request.getParameter("id"));
 
 				Usuario usuario = dao.buscarUsuario(id, super.getUserLogado(request).getId());
-				usuario.setEndereco(enderecoDao.buscarEndereco(usuario.getId()));
 
 				request.setAttribute("tituloForm", "Edição");
 				request.setAttribute("usuario", usuario);

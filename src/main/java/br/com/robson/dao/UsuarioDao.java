@@ -91,6 +91,8 @@ public class UsuarioDao {
 	public Usuario buscarUsuario(Long id, Long usuarioCadId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
+		EnderecoDao enderecoDao = new EnderecoDao();
+		TelefoneDao telefoneDao = new TelefoneDao();
 		
 		try {
 			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE id = ? AND user_admin IS FALSE AND usuario_cad_id = ?");
@@ -109,6 +111,8 @@ public class UsuarioDao {
 				obj.setSexo(rs.getString("sexo"));
 				obj.setFoto(rs.getString("foto"));
 				obj.setExtensaoFoto(rs.getString("extensao_foto"));
+				obj.setEndereco(enderecoDao.buscarEndereco(id));
+				obj.setTelefones(telefoneDao.buscarTodosDoUsuario(id));
 				
 				return obj;
 			}

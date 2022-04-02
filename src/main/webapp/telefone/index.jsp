@@ -114,7 +114,7 @@
 																	</tr>
 																</thead>
 																<tbody>
-																	<c:forEach items="${telefoneList}" var="telefone">
+																	<c:forEach items="${usuario.telefones}" var="telefone">
 																		<tr>
 																			<th scope="row">
 																				<c:out value="${telefone.id}"></c:out>

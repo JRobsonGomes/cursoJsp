@@ -1,7 +1,6 @@
 package br.com.robson.controllers;
 
 import java.io.IOException;
-import java.util.List;
 
 import br.com.robson.dao.TelefoneDao;
 import br.com.robson.dao.UsuarioDao;
@@ -30,9 +29,7 @@ public class TelefoneController extends ServletGenericUtil {
 		try {
 
 			Usuario usuario = dao.buscarUsuario(usuarioId, getUserLogado(request).getId());
-			List<Telefone> telefones = telefoneDao.buscarTodosDoUsuario(usuario.getId());
 
-			request.setAttribute("telefoneList", telefones);
 			request.setAttribute("usuario", usuario);
 			request.getRequestDispatcher("telefone/index.jsp").forward(request, response);
 		} catch (Exception e) {
