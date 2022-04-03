@@ -139,11 +139,19 @@ String titulo = (String) request.getAttribute("tituloForm");
 																			<label class="float-label">Data Nascimento</label>
 																		</div>
 																	</div>
-																	<div class="form-group form-default">
-																		<input type="email" name="email" id="email"
-																			class="form-control" value="${usuario.email}" maxlength="60" required>
-																		<span class="form-bar"></span> <label
-																			class="float-label">Email (exa@gmail.com)</label>
+																	<div class="d-md-flex">
+																		<div class="form-group form-default col-md-8 px-0 pr-md-3">
+																			<input type="email" name="email" id="email" class="form-control" value="${usuario.email}" maxlength="60" required>
+																			<span class="form-bar"></span>
+																			<label class="float-label">Email (exa@gmail.com)</label>
+																		</div>
+																		<div class="form-group form-default col-md-4 px-0">
+																			<%-- <fmt:setLocale value = "en_US"/> Caso queira mudar o local de formatacao--%>
+																			<input type="text" name="rendaMensal" id="rendaMensal" class="form-control" value="<fmt:formatNumber value = "${usuario.rendaMensal}" type = "currency"/>"
+																				data-thousands="." data-decimal="," data-prefix="R$ ">
+																			<span class="form-bar"></span>
+																			<label class="float-label">Renda Mensal</label>
+																		</div>
 																	</div>
 																	<div class="form-group form-default">
 																		<input type="text" name="login" id="login"

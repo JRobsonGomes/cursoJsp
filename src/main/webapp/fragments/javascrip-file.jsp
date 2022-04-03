@@ -34,6 +34,7 @@
 		src="<%=request.getContextPath()%>/assets/pages/dashboard/custom-dashboard.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/script.js "></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/jquery.mask.min.js "></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/assets/js/jquery.maskMoney.min.js"></script>
 
 	<!-- Validação formulários -->
 	<script>
@@ -321,5 +322,8 @@
 				});
 			});
 
+			//Formatar salário
+			$("#rendaMensal").maskMoney();
+			//$("#rendaMensal").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
 		});
 	</script>

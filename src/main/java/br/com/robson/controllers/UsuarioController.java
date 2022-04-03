@@ -202,6 +202,7 @@ public class UsuarioController extends ServletGenericUtil {
 			String numero = request.getParameter("numero");
 			String complemento = request.getParameter("complemento");
 			String dataNascimento = request.getParameter("dataNascimento");
+			String rendaMensal = request.getParameter("rendaMensal");
 			Long usuarioCadId = super.getUserLogado(request).getId();
 
 			usuario.setId(id != null && !id.isBlank() ? Long.parseLong(id) : null);
@@ -212,9 +213,9 @@ public class UsuarioController extends ServletGenericUtil {
 			usuario.setPerfil(PerfilUsuario.valueOf(perfil));
 			usuario.setUsuarioCadId(usuarioCadId);
 			usuario.setSexo(sexo);
-			if (dataNascimento != null && !dataNascimento.isBlank())
-				usuario.setDataNascimento(Util.parseStringTolocalDateFromPattern(dataNascimento, "dd/MM/yyyy"));
-			
+			usuario.setDataNascimento(dataNascimento != null && !dataNascimento.isBlank() ? Util.parseStringTolocalDateFromPattern(dataNascimento, "dd/MM/yyyy") : null);
+			usuario.setRendaMensal(rendaMensal != null && !rendaMensal.isBlank() ? Util.parseStringToRendaMensal(rendaMensal) : null);
+
 			endereco.setCep(Integer.parseInt(cep));
 			endereco.setLogradouro(logradouro);
 			endereco.setBairro(bairro);

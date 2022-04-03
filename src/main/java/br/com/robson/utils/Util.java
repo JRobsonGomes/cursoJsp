@@ -35,4 +35,15 @@ public class Util {
 		LocalDate date = parseStringTolocalDateFromIsoDate(localDate);
 		return date.format(formatter);
 	}
+	
+	public static Double parseStringToRendaMensal(String str) {
+		try {
+			String[] arr = str.split(",");
+			String renda = arr[0].replaceAll("[^0-9]", "") + "." + arr[1];
+			return Double.valueOf(renda);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0.0;
+		}
+	}
 }

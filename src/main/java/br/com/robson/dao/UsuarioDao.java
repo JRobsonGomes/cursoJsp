@@ -114,6 +114,7 @@ public class UsuarioDao {
 				obj.setFoto(rs.getString("foto"));
 				obj.setExtensaoFoto(rs.getString("extensao_foto"));
 				if (rs.getString("data_nascimento") != null) obj.setDataNascimento(Util.parseStringTolocalDateFromPattern(rs.getString("data_nascimento"), "yyyy-MM-dd"));
+				if (rs.getString("renda_mensal") != null) obj.setRendaMensal(Double.valueOf(rs.getString("renda_mensal")));
 				obj.setEndereco(enderecoDao.buscarEndereco(id));
 				obj.setTelefones(telefoneDao.buscarTodosDoUsuario(id));
 				
@@ -131,8 +132,8 @@ public class UsuarioDao {
 
 	public void salvar(Usuario usuario) throws Exception {
 		PreparedStatement st = null;
-		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_cad_id, perfil, sexo, data_nascimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_cad_id=?, perfil=?, sexo=?, data_nascimento=? WHERE id = ?";
+		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_cad_id, perfil, sexo, data_nascimento, renda_mensal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_cad_id=?, perfil=?, sexo=?, data_nascimento=?, renda_mensal=? WHERE id = ?";
 
 		try {
 			st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -145,7 +146,8 @@ public class UsuarioDao {
 			st.setString(6, usuario.getPerfil().name());
 			st.setString(7, usuario.getSexo());
 			st.setDate(8, usuario.getDataNascimento() != null ? Date.valueOf(usuario.getDataNascimento()) : null);
-			if (usuario.getId() != null) st.setLong(9, usuario.getId());
+			st.setDouble(9, usuario.getRendaMensal() != null ? usuario.getRendaMensal() : 0.00);
+			if (usuario.getId() != null) st.setLong(10, usuario.getId());
 
 			int rowsAffected = st.executeUpdate();
 			connection.commit();

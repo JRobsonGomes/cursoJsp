@@ -119,5 +119,10 @@ ALTER TABLE tb_usuario RENAME CONSTRAINT "usuario_fk" TO "usuario_cad_fk";
 --Inserindo coluna data_nascimento
 ALTER TABLE tb_usuario ADD COLUMN data_nascimento date;
 
+--Inserindo coluna renda_mensal
+ALTER TABLE tb_usuario ADD COLUMN renda_mensal DOUBLE PRECISION;
+
+
+
 
 

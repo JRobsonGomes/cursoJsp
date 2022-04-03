@@ -27,6 +27,7 @@ public class Usuario implements Serializable {
 	private Endereco endereco;
 	private LocalDate dataNascimento;
 	private String numTelefonesToString;
+	private Double rendaMensal;
 	private List<Telefone> telefones = new ArrayList<Telefone>();
 	
 	public Usuario() {
@@ -156,6 +157,14 @@ public class Usuario implements Serializable {
 
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public Double getRendaMensal() {
+		return rendaMensal;
+	}
+
+	public void setRendaMensal(Double rendaMensal) {
+		this.rendaMensal = rendaMensal;
 	}
 
 	public String getNumTelefonesToString() {
