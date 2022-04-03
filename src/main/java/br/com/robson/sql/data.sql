@@ -116,7 +116,8 @@ ALTER TABLE tb_usuario RENAME COLUMN usuario_id TO usuario_cad_id;
 
 ALTER TABLE tb_usuario RENAME CONSTRAINT "usuario_fk" TO "usuario_cad_fk";
 
-
+--Inserindo coluna data_nascimento
+ALTER TABLE tb_usuario ADD COLUMN data_nascimento date;
 
 
 

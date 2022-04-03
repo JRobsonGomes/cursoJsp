@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="br.com.robson.enums.PerfilUsuario"%>
+<%@ page import="br.com.robson.utils.Util"%>
 
 <%
 String titulo = (String) request.getAttribute("tituloForm");
@@ -126,11 +127,17 @@ String titulo = (String) request.getAttribute("tituloForm");
 																			</div>
 																		</div>
 																	</div>
-																	<div class="form-group form-default">
-																		<input type="text" name="nome" id="nome"
-																			class="form-control" value="${usuario.nome}" maxlength="60" required>
-																		<span class="form-bar"></span> <label
-																			class="float-label">Nome</label>
+																	<div class="d-md-flex">
+																		<div class="form-group form-default col-md-8 px-0 pr-md-3">
+																			<input type="text" name="nome" id="nome" class="form-control" value="${usuario.nome}" maxlength="60" required>
+																			<span class="form-bar"></span>
+																			<label class="float-label">Nome</label>
+																		</div>
+																		<div class="form-group form-default col-md-4 px-0">
+																			<input type="text" name="dataNascimento" id="dataNascimento" class="form-control" value="${Util.formatLocalDateToPattern(usuario.dataNascimento, 'dd/MM/yyyy')}">
+																			<span class="form-bar"></span> 
+																			<label class="float-label">Data Nascimento</label>
+																		</div>
 																	</div>
 																	<div class="form-group form-default">
 																		<input type="email" name="email" id="email"

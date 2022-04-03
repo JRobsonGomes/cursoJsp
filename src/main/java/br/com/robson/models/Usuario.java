@@ -1,6 +1,7 @@
 package br.com.robson.models;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,8 +25,9 @@ public class Usuario implements Serializable {
 	private String foto;
 	private String extensaoFoto;
 	private Endereco endereco;
-	private List<Telefone> telefones = new ArrayList<Telefone>();
+	private LocalDate dataNascimento;
 	private String numTelefonesToString;
+	private List<Telefone> telefones = new ArrayList<Telefone>();
 	
 	public Usuario() {
 	}
@@ -146,6 +148,14 @@ public class Usuario implements Serializable {
 
 	public void setTelefones(List<Telefone> telefones) {
 		this.telefones = telefones;
+	}
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 	public String getNumTelefonesToString() {

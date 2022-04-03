@@ -1,6 +1,7 @@
 package br.com.robson.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import br.com.robson.connection.DbException;
 import br.com.robson.connection.SingleConnectionBanco;
 import br.com.robson.enums.PerfilUsuario;
 import br.com.robson.models.Usuario;
+import br.com.robson.utils.Util;
 
 public class UsuarioDao {
 
@@ -111,6 +113,7 @@ public class UsuarioDao {
 				obj.setSexo(rs.getString("sexo"));
 				obj.setFoto(rs.getString("foto"));
 				obj.setExtensaoFoto(rs.getString("extensao_foto"));
+				if (rs.getString("data_nascimento") != null) obj.setDataNascimento(Util.parseStringTolocalDateFromPattern(rs.getString("data_nascimento"), "yyyy-MM-dd"));
 				obj.setEndereco(enderecoDao.buscarEndereco(id));
 				obj.setTelefones(telefoneDao.buscarTodosDoUsuario(id));
 				
@@ -128,8 +131,8 @@ public class UsuarioDao {
 
 	public void salvar(Usuario usuario) throws Exception {
 		PreparedStatement st = null;
-		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_cad_id, perfil, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)"
-				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_cad_id=?, perfil=?, sexo=? WHERE id = ?";
+		String sql = usuario.getId() == null ? "INSERT INTO tb_usuario(login, senha, nome, email, usuario_cad_id, perfil, sexo, data_nascimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+				: "UPDATE tb_usuario SET login=?, senha=?, nome=?, email=?, usuario_cad_id=?, perfil=?, sexo=?, data_nascimento=? WHERE id = ?";
 
 		try {
 			st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -141,7 +144,8 @@ public class UsuarioDao {
 			st.setLong(5, usuario.getUsuarioCadId());
 			st.setString(6, usuario.getPerfil().name());
 			st.setString(7, usuario.getSexo());
-			if (usuario.getId() != null) st.setLong(8, usuario.getId());
+			st.setDate(8, usuario.getDataNascimento() != null ? Date.valueOf(usuario.getDataNascimento()) : null);
+			if (usuario.getId() != null) st.setLong(9, usuario.getId());
 
 			int rowsAffected = st.executeUpdate();
 			connection.commit();

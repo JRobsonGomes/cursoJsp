@@ -16,6 +16,7 @@ import br.com.robson.enums.PerfilUsuario;
 import br.com.robson.models.Endereco;
 import br.com.robson.models.Usuario;
 import br.com.robson.utils.ServletGenericUtil;
+import br.com.robson.utils.Util;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -194,6 +195,7 @@ public class UsuarioController extends ServletGenericUtil {
 			String cidade = request.getParameter("cidade");
 			String numero = request.getParameter("numero");
 			String complemento = request.getParameter("complemento");
+			String dataNascimento = request.getParameter("dataNascimento");
 			Long usuarioCadId = super.getUserLogado(request).getId();
 
 			usuario.setId(id != null && !id.isBlank() ? Long.parseLong(id) : null);
@@ -204,6 +206,8 @@ public class UsuarioController extends ServletGenericUtil {
 			usuario.setPerfil(PerfilUsuario.valueOf(perfil));
 			usuario.setUsuarioCadId(usuarioCadId);
 			usuario.setSexo(sexo);
+			if (dataNascimento != null && !dataNascimento.isBlank())
+				usuario.setDataNascimento(Util.parseStringTolocalDateFromPattern(dataNascimento, "dd/MM/yyyy"));
 			
 			endereco.setCep(Integer.parseInt(cep));
 			endereco.setLogradouro(logradouro);

@@ -287,8 +287,11 @@
 				}
 
 			});
+			
+			//Formatar cep
 			$('#cep').mask('00000-000');
 			
+			//Formatar telefone
 			let tel = $('#numeroTel');
 			tel.mask("(99) 99999-9999").on("focusout", function () {
 				var len = this.value.replace(/\D/g, '').length;
@@ -300,5 +303,20 @@
 			$('.popover-dismiss').popover({
 				trigger: 'focus'
 			})
+			
+			//Datepicker
+			$(function () {
+				$("#dataNascimento").datepicker({
+					dateFormat: 'dd/mm/yy',
+					dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+					dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+					dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+					monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+					monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+					nextText: 'Próximo',
+					prevText: 'Anterior'
+				});
+			});
+
 		});
 	</script>
