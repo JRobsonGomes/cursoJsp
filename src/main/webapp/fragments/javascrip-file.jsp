@@ -103,6 +103,7 @@
 		function buscarUsuarios(nome) {
 			if (nome != null && nome != '' && nome.trim() != '') {
 				var urlAction = document.getElementById('formUser').action;//Outra forma com javaScript puro
+				urlAction = urlAction.split('?')[0];
 
 				$.ajax({
 					method: "get",
@@ -127,6 +128,7 @@
 
 			if (confirm("Deseja realmente excluir: " + nome)) {
 				var urlAction = document.getElementById('formUser').action;
+				urlAction = urlAction.split('?')[0];
 
 				$.ajax({
 					method: "get",
@@ -173,6 +175,7 @@
 			/* Limpar formulário */
 			$('#btnNovo').click(function () {
 				var urlAction = document.getElementById('formUser').action;
+				urlAction = urlAction.split('?')[0];
 				window.location.href = urlAction;
 
 				/* $('#formUser :input, #formUser #msg').each(function(key, value) {

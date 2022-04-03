@@ -55,7 +55,7 @@ String titulo = (String) request.getAttribute("tituloForm");
 													<div class="card-block">
 														<form id="formUser" class="form-material needs-validation"
 															method="post"
-															action="<%=request.getContextPath()%>/UsuarioController"
+															action="<%=request.getContextPath()%>/UsuarioController?acao=salvar"
 															enctype="multipart/form-data"
 															novalidate>
 															<div class="form-group form-default d-md-flex mb-5">

@@ -175,7 +175,13 @@ public class UsuarioController extends ServletGenericUtil {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		salvarUsuario(request, response);
+		String acao = request.getParameter("acao");
+
+		if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("salvar")) {
+			salvarUsuario(request, response);
+		} else {
+			listarUsuarios(request, response, 0);
+		}
 	}
 
 	private void setUsuario(HttpServletRequest request) throws Exception {
