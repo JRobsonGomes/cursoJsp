@@ -61,7 +61,7 @@
 													<div class="card-block">
 													<form id="formTelefone" class="form-material needs-validation"
 															method="post"
-															action="<%=request.getContextPath()%>/TelefoneController"
+															action="<%=request.getContextPath()%>/TelefoneController?acao=salvar"
 															novalidate>
 															<div class="d-md-flex">
 																<div class="form-group form-static-label col-md-2 px-0 pr-md-3">

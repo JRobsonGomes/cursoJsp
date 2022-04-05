@@ -133,4 +133,27 @@ public class TelefoneDao {
 			SingleConnectionBanco.closeStatement(st);
 		}
 	}
+	
+	public boolean validarTelefone(Long numero, Long usuarioId) throws Exception {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "SELECT COUNT(1) > 0 AS existe FROM tb_telefone WHERE numero = ? AND usuario_id = ? ";
+			
+			st = connection.prepareStatement(sql);
+			st.setLong(1, numero);
+			st.setLong(2, usuarioId);
+			rs = st.executeQuery();
+			
+			rs.next();
+			return rs.getBoolean("existe");
+			
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
 }

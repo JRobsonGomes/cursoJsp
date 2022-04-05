@@ -47,12 +47,18 @@ public class TelefoneController extends ServletGenericUtil {
 			telefone = new Telefone();
 			setTelefone(request);
 
-			msg = telefone.getId() != null ? "Atualizado com sucesso!" : "Salvo com sucesso!";
-			telefoneDao.salvar(telefone);
+			if (telefone.getId() == null && telefoneDao.validarTelefone(telefone.getNumero(), telefone.getUsuarioId())) {
+				msg = "Não é permitido cadastrar o mesmo número duas vezes para o mesmo usuário, informe outro número!";
+				
+			} else {
+				msg = telefone.getId() != null ? "Atualizado com sucesso!" : "Salvo com sucesso!";
+				telefoneDao.salvar(telefone);
+				
+				request.setAttribute("tituloForm", "Edição");
+				request.setAttribute("telefone", telefone);
+			}
 			
 			request.setAttribute("msg", msg);
-			request.setAttribute("tituloForm", "Edição");
-			request.setAttribute("telefone", telefone);
 			listarTelefones(request, response, telefone.getUsuarioId());
 
 		} catch (Exception e) {
@@ -99,7 +105,14 @@ public class TelefoneController extends ServletGenericUtil {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		salvarTelefone(request, response);
+		String acao = request.getParameter("acao");
+
+		if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("salvar")) {
+			salvarTelefone(request, response);
+			
+		} else {
+			new UsuarioController().listarUsuarios(request, response, 0);
+		}
 	}
 
 	private void setTelefone(HttpServletRequest request) throws Exception {
