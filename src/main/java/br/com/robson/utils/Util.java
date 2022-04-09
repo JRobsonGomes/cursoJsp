@@ -16,9 +16,14 @@ public class Util {
 	}
 
 	public static LocalDate parseStringTolocalDateFromPattern(String localDate, String pattern) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		TemporalAccessor parse = formatter.parse(localDate);
-		return LocalDate.from(parse);
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+			TemporalAccessor parse = formatter.parse(localDate);
+			return LocalDate.from(parse);
+
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	private static LocalDate parseStringTolocalDateFromIsoDate(String localDate) {

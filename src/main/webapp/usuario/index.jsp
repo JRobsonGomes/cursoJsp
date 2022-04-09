@@ -79,13 +79,13 @@ String titulo = (String) request.getAttribute("tituloForm");
 															<div class="d-md-flex">
 																<div class="col-sm-12 col-md-6 px-0 pr-md-3">
 																	<div class="d-md-flex">
-																		<div class="form-group form-static-label col-md-1 px-0 pl-md-0">
+																		<div class="form-group form-static-label col-md-1 px-0 pr-md-2">
 																			<input type="text" name="id" id="id"
 																				class="form-control" value="${usuario.id}" required
 																				readonly="readonly"> <span class="form-bar"></span>
 																			<label class="float-label">Id</label>
 																		</div>
-																		<div class="form-group form-static-label col-md-5 px-0 px-md-3">
+																		<div class="form-group form-static-label col-md-5 px-0 pr-md-3">
 																			<select name="perfil" class="form-control" required>
 																				<option value="" disabled="disabled" selected="selected">
 																					Selecione o Perfil

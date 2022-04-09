@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -219,12 +220,21 @@ public class UsuarioDao {
 		}
 	}
 
-	public List<Usuario> buscarTodos() {
+	public List<Usuario> buscarTodosPorDataNascimento(Long usuarioCadId, LocalDate dataInicial, LocalDate dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
 		try {
-			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE user_admin IS FALSE ORDER BY nome LIMIT 8");
+			String sql = dataInicial != null && dataFinal != null ? "SELECT * FROM tb_usuario WHERE usuario_cad_id = ? "
+					+ "AND user_admin IS FALSE AND data_nascimento >= ? AND data_nascimento <= ? ORDER BY data_nascimento DESC " 
+					: "SELECT * FROM tb_usuario WHERE usuario_cad_id = ? AND user_admin IS FALSE ORDER BY id ";
+				
+			st = connection.prepareStatement(sql);
+			st.setLong(1, usuarioCadId);
+			if (dataInicial != null && dataFinal != null) {
+				st.setDate(2, Date.valueOf(dataInicial));
+				st.setDate(3, Date.valueOf(dataFinal));
+			}
 			rs = st.executeQuery();
 			
 			List<Usuario> list = new ArrayList<>();
@@ -235,6 +245,40 @@ public class UsuarioDao {
 				obj.setEmail(rs.getString("email"));
 				obj.setLogin(rs.getString("login"));
 				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
+				if (rs.getString("data_nascimento") != null) obj.setDataNascimento(Util.parseStringTolocalDateFromPattern(rs.getString("data_nascimento"), "yyyy-MM-dd"));
+				if (rs.getString("renda_mensal") != null) obj.setRendaMensal(Double.valueOf(rs.getString("renda_mensal")));
+				
+				list.add(obj);
+			}
+			
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
+	
+	public List<Usuario> buscarTodos(Long usuarioCadId) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = connection.prepareStatement("SELECT * FROM tb_usuario WHERE usuario_cad_id = ? AND user_admin IS FALSE ORDER BY id ");
+			st.setLong(1, usuarioCadId);
+			rs = st.executeQuery();
+			
+			List<Usuario> list = new ArrayList<>();
+			while (rs.next()) {
+				Usuario obj = new Usuario();
+				obj.setId(rs.getLong("id"));
+				obj.setNome(rs.getString("nome"));
+				obj.setEmail(rs.getString("email"));
+				obj.setLogin(rs.getString("login"));
+				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
+				if (rs.getString("data_nascimento") != null) obj.setDataNascimento(Util.parseStringTolocalDateFromPattern(rs.getString("data_nascimento"), "yyyy-MM-dd"));
+				if (rs.getString("renda_mensal") != null) obj.setRendaMensal(Double.valueOf(rs.getString("renda_mensal")));
 				
 				list.add(obj);
 			}
