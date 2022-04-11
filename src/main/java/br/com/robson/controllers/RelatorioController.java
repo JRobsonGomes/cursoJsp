@@ -2,10 +2,12 @@ package br.com.robson.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.robson.dao.UsuarioDao;
 import br.com.robson.models.Usuario;
+import br.com.robson.utils.ReportUtil;
 import br.com.robson.utils.ServletGenericUtil;
 import br.com.robson.utils.Util;
 import jakarta.servlet.RequestDispatcher;
@@ -19,6 +21,7 @@ public class RelatorioController extends ServletGenericUtil {
 	private static final long serialVersionUID = 1L;
 	
 	private UsuarioDao dao = new UsuarioDao();
+	private List<Usuario> usuarios = new ArrayList<Usuario>();
        
     public RelatorioController() {
         super();
@@ -30,7 +33,7 @@ public class RelatorioController extends ServletGenericUtil {
 
 			LocalDate dtInicial = Util.parseStringTolocalDateFromPattern(dataInicial, "dd/MM/yyyy");
 			LocalDate dtFinal= Util.parseStringTolocalDateFromPattern(dataFinal, "dd/MM/yyyy");
-			List<Usuario> usuarios = dao.buscarTodosPorDataNascimento(super.getUserLogado(request).getId(), dtInicial, dtFinal);
+			usuarios = dao.buscarTodosPorDataNascimento(super.getUserLogado(request).getId(), dtInicial, dtFinal);
 			
 			request.setAttribute("usuariosList", usuarios);
 			request.getRequestDispatcher("relatorios/index.jsp").forward(request, response);
@@ -48,12 +51,24 @@ public class RelatorioController extends ServletGenericUtil {
 			String dataInicial = request.getParameter("dataInicial");
 			String dataFinal = request.getParameter("dataFinal");
 			
-			if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("buscar")) {
+			if (acao != null && !acao.isBlank() && acao.equalsIgnoreCase("buscarRelatorio")) {
 
 				request.setAttribute("dataInicial", dataInicial);
 				request.setAttribute("dataFinal", dataFinal);
 				listarUsuarios(request, response, dataInicial, dataFinal);
-			}
+				
+			} else if(acao != null && !acao.isBlank() && acao.equals("imprimirRelatorio")) {
+	    		if (usuarios.size() != 0) {
+					
+	    			byte[] relatorio = new ReportUtil().gerarRelatorioPDF(usuarios, "RelatorioUsuario", request.getServletContext());
+	    			response.setHeader("Content-Disposition", "attachment;filename=RelatorioUsuarios.pdf");
+	    			response.getOutputStream().write(relatorio);
+	    			
+	    			return;
+				} else {
+					throw new Exception("Lista de usuarios vazia!");
+				}
+	    	}
 		} catch (Exception e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");

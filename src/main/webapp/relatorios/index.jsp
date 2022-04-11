@@ -51,7 +51,7 @@
 														<form id="formRelatorioUser" class="form-material"
 															method="get"
 															action="<%=request.getContextPath()%>/RelatorioController">
-															<input type="hidden" name="acao" id="acao" class="form-control" value="buscar">
+															<input type="hidden" name="acao" id="acao" class="form-control" value="buscarRelatorio">
 															<div class="d-md-flex justify-content-between align-items-end">
 																<div class="form-group form-default col-md-4 px-0 pr-md-3">
 																	<input type="text" name="dataInicial" id="dataInicial" class="form-control" value="${dataInicial}">
@@ -63,9 +63,24 @@
 																	<span class="form-bar"></span> 
 																	<label class="float-label">Data Final</label>
 																</div>
-																<div class="form-group form-default col-md-3 px-0">
-																	<button class="btn btn-block btn-sm waves-effect waves-light btn-primary">Buscar</button>
-																</div>
+																<c:choose>
+																	<c:when test="${fn:length(usuariosList) != 0}">
+																		<div class="d-md-flex justify-content-between px-0 col-md-4">
+																			<div class="form-group form-default col-md-6 px-0 pr-md-2">
+																				<button class="btn btn-block btn-sm waves-effect waves-light btn-primary">Buscar</button>
+																			</div>
+																			<div class="form-group form-default col-md-6 px-0 pl-md-2">
+																				<a class="btn btn-block btn-sm waves-effect waves-light btn-primary"
+																				href="<%= request.getContextPath() %>/RelatorioController?acao=imprimirRelatorio">Imprimir</a>
+																			</div>
+																		</div>
+																	</c:when>
+																	<c:otherwise>
+																		<div class="form-group form-default px-0 col-md-3">
+																			<button class="btn btn-block btn-sm waves-effect waves-light btn-primary">Buscar</button>
+																		</div>
+																	</c:otherwise>
+																</c:choose>
 															</div>
 															<span class="text-success" id="msg">${msg}</span>
 														</form>

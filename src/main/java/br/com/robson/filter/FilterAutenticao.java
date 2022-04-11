@@ -17,7 +17,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = { "/home/*", "/usuario/*", "/UsuarioController", "/TelefoneController" }) /* Interceptas todas as requisiçoes que vierem do projeto ou mapeamento */
+@WebFilter(urlPatterns = { "/home/*", "/usuario/*", "/UsuarioController", "/TelefoneController", "/RelatorioController", "/relatorios/*" }) /* Interceptas todas as requisiçoes que vierem do projeto ou mapeamento */
 public class FilterAutenticao implements Filter {
 
 	private static Connection connection;
