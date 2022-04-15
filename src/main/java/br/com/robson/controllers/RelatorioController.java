@@ -1,9 +1,12 @@
 package br.com.robson.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.robson.dao.UsuarioDao;
 import br.com.robson.models.Usuario;
@@ -60,7 +63,10 @@ public class RelatorioController extends ServletGenericUtil {
 			} else if(acao != null && !acao.isBlank() && acao.equals("imprimirRelatorio")) {
 	    		if (usuarios.size() != 0) {
 					
-	    			byte[] relatorio = new ReportUtil().gerarRelatorioPDF(usuarios, "RelatorioUsuario", request.getServletContext());
+	    			String separator = File.separator;
+	    			Map<String, Object> params = new HashMap<>();
+		    		params.put("PARAM_SUB_REPORT", request.getServletContext().getResource(separator + "WEB-INF" + separator + "classes" + separator + "relatorios" + separator).getFile());
+	    			byte[] relatorio = new ReportUtil().gerarRelatorioPDF(usuarios, "RelatorioUsuario", params, request.getServletContext());
 	    			response.setHeader("Content-Disposition", "attachment;filename=RelatorioUsuarios.pdf");
 	    			response.getOutputStream().write(relatorio);
 	    			

@@ -223,6 +223,8 @@ public class UsuarioDao {
 	public List<Usuario> buscarTodosPorDataNascimento(Long usuarioCadId, LocalDate dataInicial, LocalDate dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
+		EnderecoDao enderecoDao = new EnderecoDao();
+		TelefoneDao telefoneDao = new TelefoneDao();
 		
 		try {
 			String sql = dataInicial != null && dataFinal != null ? "SELECT * FROM tb_usuario WHERE usuario_cad_id = ? "
@@ -240,13 +242,17 @@ public class UsuarioDao {
 			List<Usuario> list = new ArrayList<>();
 			while (rs.next()) {
 				Usuario obj = new Usuario();
-				obj.setId(rs.getLong("id"));
+				long id = rs.getLong("id");
+				
+				obj.setId(id);
 				obj.setNome(rs.getString("nome"));
 				obj.setEmail(rs.getString("email"));
 				obj.setLogin(rs.getString("login"));
 				obj.setPerfil(PerfilUsuario.valueOf(rs.getString("perfil")));
 				if (rs.getString("data_nascimento") != null) obj.setDataNascimento(Util.parseStringTolocalDateFromPattern(rs.getString("data_nascimento"), "yyyy-MM-dd"));
 				if (rs.getString("renda_mensal") != null) obj.setRendaMensal(Double.valueOf(rs.getString("renda_mensal")));
+				obj.setEndereco(enderecoDao.buscarEndereco(id));
+				obj.setTelefones(telefoneDao.buscarTodosDoUsuario(id));
 				
 				list.add(obj);
 			}
