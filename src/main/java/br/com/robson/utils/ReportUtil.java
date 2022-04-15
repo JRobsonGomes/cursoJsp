@@ -16,12 +16,13 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class ReportUtil implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private static String separator = File.separator;
+	private static final String REPORTS_PATH = separator + "WEB-INF" + separator + "classes" + separator + "relatorios" + separator;
 
-	public byte[] gerarRelatorioPDF(List<?> dados, String nome, Map<String, Object> params, ServletContext context) throws JRException {
+	public static byte[] gerarRelatorioPDF(List<?> dados, String nome, Map<String, Object> params, ServletContext context) throws JRException {
 		try {
-			String separator = File.separator;
 			var dataSource = new JRBeanCollectionDataSource(dados);
-			URL pathReport = context.getResource(separator + "WEB-INF" + separator + "classes" + separator + "relatorios" + separator + nome + ".jasper"); // Colocando dentro da pasta main/resouces
+			URL pathReport = context.getResource(getReportsPath() + nome + ".jasper"); // Colocando dentro da pasta main/resouces
 			var printJasper = JasperFillManager.fillReport(pathReport.getFile(), params, dataSource);
 			
 			return JasperExportManager.exportReportToPdf(printJasper);
@@ -46,5 +47,9 @@ public class ReportUtil implements Serializable {
 		}
 		
 		return null;
+	}
+
+	public static String getReportsPath() {
+		return REPORTS_PATH;
 	}
 }

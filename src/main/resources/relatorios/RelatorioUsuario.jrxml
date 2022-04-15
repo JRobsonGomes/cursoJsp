@@ -71,7 +71,7 @@
 					</reportElement>
 				</frame>
 				<textField isBlankWhenNull="true">
-					<reportElement x="200" y="0" width="170" height="20" uuid="60d57e6f-16e7-4c0e-a716-f30a850f7942">
+					<reportElement x="200" y="0" width="154" height="20" uuid="60d57e6f-16e7-4c0e-a716-f30a850f7942">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="03d594be-e20d-4f6f-8aaf-a549c6fe070e"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -79,7 +79,7 @@
 					<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.## ¤;#,##0.## ¤" isBlankWhenNull="true">
-					<reportElement x="370" y="0" width="84" height="20" uuid="b4dd001b-19ef-4647-bb41-cbeb23b64b18">
+					<reportElement x="354" y="0" width="94" height="20" uuid="b4dd001b-19ef-4647-bb41-cbeb23b64b18">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d41a3751-5da5-44db-9efc-556eeca86c17"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -87,7 +87,7 @@
 					<textFieldExpression><![CDATA[$F{rendaMensal} == 0 ? null : $F{rendaMensal}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="454" y="0" width="101" height="20" uuid="7533cfcf-1d7c-4a2a-8620-d608641414cf">
+					<reportElement x="448" y="0" width="107" height="20" uuid="7533cfcf-1d7c-4a2a-8620-d608641414cf">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e395dd34-aa8b-480b-9529-c6ba7a1e6418"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -197,7 +197,7 @@
 				<text><![CDATA[Nome]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="370" y="0" width="84" height="26" uuid="c315be0f-1528-4af4-b874-006f73903e76">
+				<reportElement x="354" y="0" width="94" height="26" uuid="c315be0f-1528-4af4-b874-006f73903e76">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d41a3751-5da5-44db-9efc-556eeca86c17"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -206,7 +206,7 @@
 				<text><![CDATA[Renda mensal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="454" y="0" width="101" height="26" uuid="929a27d5-2708-4139-b986-9baa84487490">
+				<reportElement x="448" y="0" width="107" height="26" uuid="929a27d5-2708-4139-b986-9baa84487490">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e395dd34-aa8b-480b-9529-c6ba7a1e6418"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -215,7 +215,7 @@
 				<text><![CDATA[Data Nascimento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="200" y="0" width="170" height="26" uuid="ca5f3c6c-04f5-4056-863a-2463885bc0f7">
+				<reportElement x="200" y="0" width="154" height="26" uuid="ca5f3c6c-04f5-4056-863a-2463885bc0f7">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="03d594be-e20d-4f6f-8aaf-a549c6fe070e"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
