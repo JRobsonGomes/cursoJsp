@@ -3,10 +3,6 @@ package br.com.robson.utils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import br.com.robson.models.Telefone;
 
 public class Util {
 
@@ -54,10 +50,5 @@ public class Util {
 			e.printStackTrace();
 			return 0.0;
 		}
-	}
-	
-	public static String getNumTelefonesToString(List<Telefone> list) {
-		List<String> tel = list.stream().map(t -> Util.formatTelefone(t.getNumero())).collect(Collectors.toList());
-		return tel.toString().replaceAll("\\[|\\]", "");
 	}
 }

@@ -34,7 +34,7 @@
 				</textElement>
 				<text><![CDATA[* Endereco:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="99" y="0" width="476" height="20" uuid="55d6dc97-b552-4eb0-9d5a-7371d54b1f2b">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -53,8 +53,8 @@
 				</textElement>
 				<text><![CDATA[* Telefones:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="99" y="-20" width="485" height="20" uuid="3f4250dd-06b4-46ba-8468-9bc13b2d3662">
+			<textField isBlankWhenNull="true">
+				<reportElement x="99" y="-20" width="476" height="20" uuid="3f4250dd-06b4-46ba-8468-9bc13b2d3662">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
