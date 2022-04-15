@@ -65,18 +65,10 @@
 			</band>
 			<band height="20">
 				<frame>
-					<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="20" uuid="b50221b5-8254-440b-8c6f-1f0b138c9259">
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#D4D4D4" backcolor="#D4D4D4" uuid="b50221b5-8254-440b-8c6f-1f0b138c9259">
 						<property name="ShowOutOfBoundContent" value="true"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
-					<textField isBlankWhenNull="true">
-						<reportElement x="30" y="0" width="170" height="20" uuid="8b78fce1-d1b5-4b11-ac5e-25dbdd375e0e">
-							<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a2faa896-8881-4e35-b26c-d96fef1cac18"/>
-							<property name="com.jaspersoft.studio.unit.x" value="px"/>
-						</reportElement>
-						<textElement verticalAlignment="Middle"/>
-						<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
-					</textField>
 				</frame>
 				<textField isBlankWhenNull="true">
 					<reportElement x="200" y="0" width="170" height="20" uuid="60d57e6f-16e7-4c0e-a716-f30a850f7942">
@@ -110,28 +102,32 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="30" y="0" width="170" height="20" uuid="8b78fce1-d1b5-4b11-ac5e-25dbdd375e0e">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a2faa896-8881-4e35-b26c-d96fef1cac18"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="40">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<subreport>
-					<reportElement x="0" y="20" width="555" height="20" uuid="99addc58-bb05-43a2-8679-f06d7df70717">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-						<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					</reportElement>
-					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(java.util.Collections.singleton($F{endereco}))]]></dataSourceExpression>
-					<subreportExpression><![CDATA[$P{PARAM_SUB_REPORT}+"SubRelatorioEndereco.jasper"]]></subreportExpression>
-				</subreport>
-				<subreport>
-					<reportElement x="0" y="0" width="555" height="20" uuid="91eb947d-c7de-4e18-b4a1-8b76ab58845b">
+					<reportElement x="0" y="0" width="555" height="40" uuid="91eb947d-c7de-4e18-b4a1-8b76ab58845b">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					</reportElement>
 					<subreportParameter name="TELEFONES">
-						<subreportParameterExpression><![CDATA[br.com.robson.utils.Util.getNumTelefonesToString($F{telefones})]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{numTelefonesToString}]]></subreportParameterExpression>
 					</subreportParameter>
-					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(java.util.Collections.singleton($F{telefones}))]]></dataSourceExpression>
-					<subreportExpression><![CDATA[$P{PARAM_SUB_REPORT}+"SubRelatorioTelefones.jasper"]]></subreportExpression>
+					<subreportParameter name="ENDERECO">
+						<subreportParameterExpression><![CDATA[$F{endereco}.toString()]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(java.util.Collections.singleton($F{endereco}))]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{PARAM_SUB_REPORT}+"SubRelatorioUsuario.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</groupFooter>
