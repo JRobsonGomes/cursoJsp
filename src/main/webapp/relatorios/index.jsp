@@ -45,7 +45,7 @@
 											<div class="col-sm-12">
 												<div class="card">
 													<div class="card-header">
-														<h5>Relatório de usuário</h5>
+														<h5>Filtrar por data de nascimento</h5>
 													</div>
 													<div class="card-block">
 														<form id="formRelatorioUser" class="form-material"
@@ -92,7 +92,7 @@
 											<div class="col-sm-12">
 												<div class="card">
 													<div class="card-header d-flex justify-content-between">
-														<h5>Listagem usuários</h5>
+														<h5>Relatório de usuário</h5>
 														<c:if test="${fn:length(usuariosList) != 0}">
 															<h6 class="text-success">${fn:length(usuariosList)} resultados encontrados</h6>
 														</c:if>

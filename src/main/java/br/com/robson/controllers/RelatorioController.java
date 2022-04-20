@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.robson.dao.UsuarioDao;
+import br.com.robson.dto.GraficoSalarioDTO;
 import br.com.robson.models.Usuario;
 import br.com.robson.utils.ReportUtil;
 import br.com.robson.utils.ServletGenericUtil;
@@ -72,6 +75,11 @@ public class RelatorioController extends ServletGenericUtil {
 				} else {
 					throw new Exception("Lista de usuarios vazia!");
 				}
+	    	} else if(acao != null && !acao.isBlank() && acao.equals("graficoSalario")) {
+	    		GraficoSalarioDTO dtoGraficoSalario = dao.montarGraficoSalario(super.getUserLogado(request).getId());
+
+	    		response.getWriter().write(new ObjectMapper().writeValueAsString(dtoGraficoSalario));
+				return;
 	    	}
 		} catch (Exception e) {
 			e.printStackTrace();

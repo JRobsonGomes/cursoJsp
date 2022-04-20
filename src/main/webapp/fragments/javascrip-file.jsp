@@ -35,7 +35,8 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/script.js "></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/jquery.mask.min.js "></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/assets/js/jquery.maskMoney.min.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
 	<!-- Validação formulários -->
 	<script>
 		// Example starter JavaScript for disabling form submissions if there are invalid fields

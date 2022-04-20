@@ -12,6 +12,7 @@ import java.util.List;
 
 import br.com.robson.connection.DbException;
 import br.com.robson.connection.SingleConnectionBanco;
+import br.com.robson.dto.GraficoSalarioDTO;
 import br.com.robson.enums.PerfilUsuario;
 import br.com.robson.models.Usuario;
 import br.com.robson.utils.Util;
@@ -24,6 +25,35 @@ public class UsuarioDao {
 		connection = SingleConnectionBanco.getConnection();
 	}
 
+	public GraficoSalarioDTO montarGraficoSalario(Long usuarioCadId) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		var graficoSalarioDTO = new GraficoSalarioDTO();
+		
+		try {
+			st = connection.prepareStatement("SELECT AVG(renda_mensal)::numeric(10,2) AS media_mensal, perfil FROM tb_usuario WHERE usuario_cad_id = ? GROUP BY perfil ORDER BY media_mensal ASC");
+			st.setLong(1, usuarioCadId);
+			rs = st.executeQuery();
+			
+			var perfis = new ArrayList<String>();	
+			var salarios = new ArrayList<Double>();
+			while (rs.next()) {
+				salarios.add(rs.getDouble("media_mensal"));
+				perfis.add(rs.getString("perfil"));
+			}
+			
+			graficoSalarioDTO.setSalarios(salarios);
+			graficoSalarioDTO.setPerfis(perfis);
+			
+			return graficoSalarioDTO;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			SingleConnectionBanco.closeStatement(st);
+			SingleConnectionBanco.closeResultSet(rs);
+		}
+	}
+	
 	public List<Usuario> buscarUsuarioConsulta(String nome, Long usuarioCadId) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -147,7 +177,12 @@ public class UsuarioDao {
 			st.setString(6, usuario.getPerfil().name());
 			st.setString(7, usuario.getSexo());
 			st.setDate(8, usuario.getDataNascimento() != null ? Date.valueOf(usuario.getDataNascimento()) : null);
-			st.setDouble(9, usuario.getRendaMensal() != null ? usuario.getRendaMensal() : 0.00);
+			if (usuario.getRendaMensal() != null) {
+				st.setDouble(9, usuario.getRendaMensal());
+			} else {
+				st.setNull(9, 0);
+			}
+			
 			if (usuario.getId() != null) st.setLong(10, usuario.getId());
 
 			int rowsAffected = st.executeUpdate();
