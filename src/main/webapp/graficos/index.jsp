@@ -93,9 +93,6 @@
                                     </button>
                                   </div>
                                 </div>
-                                <span class="text-success" id="msg"
-                                  >${msg}</span
-                                >
                               </form>
                             </div>
                           </div>
@@ -107,12 +104,10 @@
                             <div
                               class="card-header d-flex justify-content-between"
                             >
-                              <h5>Gráficos</h5>
+                              <h5>Gráfico média salarial</h5>
                             </div>
                             <div class="card-block">
-                              <div>
-                                <canvas id="myChart"></canvas>
-                              </div>
+                              <canvas id="myChart"></canvas>
                             </div>
                           </div>
                         </div>
@@ -131,20 +126,24 @@
 
     <script>
       var myChart = new Chart($("#myChart"));
-
+      
       function gerarGrafico() {
         var urlAction = document.getElementById("formRelatorioUser").action;
+        var dataInicial = $("#dataInicial").val();
+        var dataFinal = $("#dataFinal").val();
 
         $.ajax({
           method: "get",
           url: urlAction,
           data: {
             acao: "graficoSalario",
+            dataInicial,
+            dataFinal
           },
           success: function (response) {
-			var json = JSON.parse(response)
+			      var json = JSON.parse(response);
             myChart.destroy();
-
+            
             myChart = new Chart($("#myChart"), {
               type: "line",
               data: {
@@ -164,7 +163,7 @@
         }).fail(function (xhr, status, errorThrown) {
           alert("Erro ao gerar gráfico média salarial: " + xhr.responseText);
         });
-
+        
       }
     </script>
   </body>

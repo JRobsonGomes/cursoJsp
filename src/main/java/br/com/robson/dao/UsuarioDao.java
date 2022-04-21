@@ -25,14 +25,24 @@ public class UsuarioDao {
 		connection = SingleConnectionBanco.getConnection();
 	}
 
-	public GraficoSalarioDTO montarGraficoSalario(Long usuarioCadId) {
+	public GraficoSalarioDTO montarGraficoSalario(Long usuarioCadId, LocalDate dataInicial, LocalDate dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		var graficoSalarioDTO = new GraficoSalarioDTO();
 		
 		try {
-			st = connection.prepareStatement("SELECT AVG(renda_mensal)::numeric(10,2) AS media_mensal, perfil FROM tb_usuario WHERE usuario_cad_id = ? GROUP BY perfil ORDER BY media_mensal ASC");
+			String sql = "SELECT AVG(renda_mensal)::numeric(10,2) AS media_mensal, perfil FROM tb_usuario WHERE usuario_cad_id = ? ";
+			if (dataInicial != null && dataFinal != null) {
+				sql += "AND data_nascimento >= ? AND data_nascimento <= ? ";
+			} 
+			sql += "GROUP BY perfil ORDER BY media_mensal ASC";
+			
+			st = connection.prepareStatement(sql);
 			st.setLong(1, usuarioCadId);
+			if (dataInicial != null && dataFinal != null) {
+				st.setDate(2, Date.valueOf(dataInicial));
+				st.setDate(3, Date.valueOf(dataFinal));
+			}
 			rs = st.executeQuery();
 			
 			var perfis = new ArrayList<String>();	

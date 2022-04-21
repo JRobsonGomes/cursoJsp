@@ -76,7 +76,10 @@ public class RelatorioController extends ServletGenericUtil {
 					throw new Exception("Lista de usuarios vazia!");
 				}
 	    	} else if(acao != null && !acao.isBlank() && acao.equals("graficoSalario")) {
-	    		GraficoSalarioDTO dtoGraficoSalario = dao.montarGraficoSalario(super.getUserLogado(request).getId());
+	    		LocalDate dtInicial = Util.parseStringTolocalDateFromPattern(dataInicial, "dd/MM/yyyy");
+				LocalDate dtFinal= Util.parseStringTolocalDateFromPattern(dataFinal, "dd/MM/yyyy");
+				
+	    		GraficoSalarioDTO dtoGraficoSalario = dao.montarGraficoSalario(super.getUserLogado(request).getId(), dtInicial, dtFinal);
 
 	    		response.getWriter().write(new ObjectMapper().writeValueAsString(dtoGraficoSalario));
 				return;
